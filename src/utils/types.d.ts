@@ -42,10 +42,12 @@ export  interface ValidationError {
     code: string;
 }
 
-export  interface ValidationErrorResponse {
-    status: string;
-    message: string;
-    timestamp: string;
-    path: string | null;
-    errors: ValidationError[];
+export interface AvatarProps {
+    Icon: Icon;
+    imageUrl: string;
+}
+
+export interface IconProps {
+    className?: string;
+    strokeWidth?: string | number | undefined;
 }

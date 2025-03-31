@@ -11,7 +11,7 @@ import {VscBracketError, VscRefresh} from "react-icons/vsc";
 import NotFound from "@/components/general/NotFound.tsx";
 import DashboardRoutes from "@/pages/dashboard/routes/dashboard-routes.tsx";
 import CustomerRoutes from "@/pages/customers/routes/customer-routes.tsx";
-
+import SupplierRoutes from "@/pages/suppliers/routes/supplier-routes.tsx";
 
 
 const router = createBrowserRouter(
@@ -28,6 +28,7 @@ const router = createBrowserRouter(
             <Route path={"/"} element={<Navigate to={"dashboard"}/>}/>
             <Route path={"dashboard"} element={<DashboardRoutes/>}/>
             <Route path={"customers/*"} element={<CustomerRoutes />} />
+            <Route path={"suppliers/*"} element={<SupplierRoutes />} />
             <Route path="*" element={<NotFound/>}/>
         </Route>
     )
