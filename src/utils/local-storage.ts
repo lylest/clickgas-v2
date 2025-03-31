@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const STORE_KEY = "SOKOLINK_STORE";
+const STORE_KEY = "CLICK_GAS";
 
 export function getValueFromLocalStorage(
     key: string | null = null,
@@ -75,10 +75,10 @@ export const localStorageKeys = {
         ACCOUNT_DETAILS:"account_details",
         LOCATION_DETAILS:"location_details",
     },
-    product_form:{
-        BASIC_PRODUCT_DETAILS:"basic_product_details",
-        PRODUCT_FINANCIAL_DETAILS:"financial_product_details",
-        PRODUCT_COVER_IMAGE:"product_cover_details",
+    supplier_form:{
+        BASIC_SUPPLIER_DETAILS:"supplier_basic_details",
+        SUPPLIER_LOCATION_DETAILS:"supplier_location_details",
+        SUPPLIER_ID_DETAILS:"supplier_id_details",
     },
     REDIRECT_URL:"REDIRECT_URL",
 };
