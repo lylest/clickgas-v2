@@ -1,38 +1,44 @@
-import {IShop} from "@/types/shop";
+export interface  ICustomerForm  {
+    firstName: string;
+    middleName: string | null;
+    lastName: string;
+    email: string;
+    phone: string;
+    country: string;
+    region: string;
+    address: string;
+    houseNo: string | null;
+    password: string;
+    tmpPassword: string;
+}
 
+export interface  ICustomerUpdateForm  {
+    firstName: string;
+    middleName: string | null;
+    lastName: string;
+    email: string;
+    phone: string;
+    country: string;
+    region: string;
+    address: string;
+    houseNo: string | null;
+}
 
 export interface ICustomer {
     id: string;
-    userName: string;
+    firstName: string;
+    middleName?: string | null;
+    lastName: string;
     email: string;
     phone: string;
+    country: string;
+    region: string;
     address: string;
-    customerStatus: string;
-    createdBy: string;
-    createdAt: string;
-    userData: {
-        id: string;
-        userName: string;
-        email: string;
-        phone: string;
-        region: string;
-        country: string;
-        notificationToken: string;
-        password: string;
-        userStatus: string;
-        createdAt: string;
-        updatedAt: string;
-    };
-    shopId: string;
-    Shop: IShop;
-}
-
-export  interface ICustomerForm {
-    userName: string;
-    email?: string | null;
-    phone: string;
-    address: string;
+    houseNo?: string | null;
+    notificationToken: string;
     password: string;
-    authMethod: string;
-    shopId: string;
+    tmpPassword: string;
+    customerStatus: string;
+    createdAt: string;
+    updatedAt: string;
 }

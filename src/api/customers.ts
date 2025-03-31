@@ -1,11 +1,11 @@
 import {generateQueryParams} from "@/utils";
 import {get, patch, post, remove} from "@/api/requests.ts";
-import {ICustomerForm} from "@/types/customer";
+import {ICustomerForm, ICustomerUpdateForm} from "@/types/customer";
 
 
-export const getCustomers = (shopId:string,page:number, pageSize:number,keyword:string) => {
+export const getCustomers = (page:number, pageSize:number,keyword:string) => {
     const queryParams = generateQueryParams({  page, pageSize, keyword });
-    return get(`/customers/${shopId}?${queryParams}`);
+    return get(`/customers?${queryParams}`);
 }
 
 export const getCustomerDetails = (customerId:string) => {
@@ -13,10 +13,10 @@ export const getCustomerDetails = (customerId:string) => {
 }
 
 export const addCustomer = (data:ICustomerForm) => {
-    return post("/customer/signup",data );
+    return post("/customer",data );
 }
 
-export const updateCustomer = (payload:{data: ICustomerForm, customerId:string}) => {
+export const updateCustomer = (payload:{data: ICustomerUpdateForm, customerId:string}) => {
     return patch(`/customer/${payload.customerId}`, payload.data );
 }
 
