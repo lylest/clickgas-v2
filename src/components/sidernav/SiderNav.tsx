@@ -27,7 +27,7 @@ const SiderNav = () => {
                 <div className="flex items-center gap-3 overflow-hidden">
                     <img src={logo} alt="Drywave logo" className="h-10 w-10 min-w-10" />
                     {!isSideNavClosed && (
-                        <h1 className="font-bold text-xl tracking-tight truncate">Click gas</h1>
+                        <h1 className="font-bold text-xl dark:text-neutral-200 tracking-tight truncate">Click gas</h1>
                     )}
                 </div>
                 <TooltipProvider>

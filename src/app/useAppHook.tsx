@@ -10,10 +10,8 @@ export const useAppHook = () => {
 
     useEffect(() => {
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            /*setIsDarkMode(true);
-            document.documentElement.classList.add('dark');*/
-            setIsDarkMode(false)
-            document.documentElement.classList.remove('dark')
+            setIsDarkMode(true);
+            document.documentElement.classList.add('dark');
         } else {
             setIsDarkMode(false);
             document.documentElement.classList.remove('dark');

@@ -1,4 +1,4 @@
-import {get, post} from "@/api/requests.ts";
+import { post} from "@/api/requests.ts";
 import {ILoginForm, ISignupForm} from "@/types/auth/auth";
 
 
