@@ -7,20 +7,19 @@ import toast from "react-hot-toast";
 
 
 const customersQueryKeys = {
-    list: (shopId:string,page: number, pageSize: number, keyword: string) =>
-        ["customers", {shopId:shopId, page: page, records: pageSize, keyword}] as const,
+    list: (page: number, pageSize: number, keyword: string) =>
+        ["customers", { page: page, records: pageSize, keyword}] as const,
     details: (customerId: string) => ["customers", {customerId}] as const,
 }
 
 export const useGetCustomers = (
-    shopId: string,
     page: number,
     pageSize: number,
     keyword: string,
     options?: QueryOptions) => {
     return useQuery<{ data: ICustomer[], metadata: IMetaData }>({
-        queryKey: customersQueryKeys.list(shopId,pageSize, pageSize, keyword),
-        queryFn: () => getCustomers(shopId,page, pageSize, keyword),
+        queryKey: customersQueryKeys.list(pageSize, pageSize, keyword),
+        queryFn: () => getCustomers(page, pageSize, keyword),
         ...options
     });
 };

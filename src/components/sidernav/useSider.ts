@@ -4,7 +4,7 @@ import {
 import { LuUsers,} from "react-icons/lu";
 
 import {
-    LucideCircleDollarSign, LucideCpu, LucideLayoutDashboard,
+    LucideCircleDollarSign, LucideCpu, LucideFileSliders, LucideLayoutDashboard,
     LucideSettings, LucideShoppingBag,
     LucideStore
 } from "lucide-react";
@@ -59,6 +59,12 @@ export const useSider = () => {
             path: "/line",
             icon: TbLine,
             pattern: new RegExp("^/line"),
+        },
+        {
+            name: 'Prices',
+            path: "/prices",
+            icon: LucideFileSliders,
+            pattern: new RegExp("^/prices/*"),
         },
         {
             name: 'Settings',
