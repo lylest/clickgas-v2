@@ -1,0 +1,18 @@
+import { FC, HTMLAttributes } from "react";
+import { twMerge } from "tailwind-merge";
+
+const SkeletonLoader: FC<HTMLAttributes<HTMLDivElement>> = ({
+    className,
+    ...rest
+}) => {
+    return (
+        <p
+            {...rest}
+            className={twMerge(
+                ` skeleton-loading rounded w-full py-2`,
+                className,
+            )}
+        ></p>
+    );
+};
+export default SkeletonLoader;

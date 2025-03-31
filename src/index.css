@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .custom-transition {
+        transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); /* Example cubic bezier easing */
+        transition-duration: 0.8s; /* Duration for the transition */
+        transition-property: all; /* Property to transition */
+    }
+
+    .just-center {
+        @apply flex flex-col items-center justify-center
+    }
+    .white-button {
+        @apply py-2 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800/30 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800
+    }
+
+    .outlined-button {
+        @apply gap-x-2 text-sm font-semibold rounded-lg border border-primary text-primary-500 hover:border-primary hover:text-primary disabled:opacity-50 disabled:pointer-events-none dark:border-neutral-700 dark:text-neutral-400 dark:hover:text-blue-500 dark:hover:border-blue-600
+    }
+
+    .small-button {
+        @apply inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary text-white hover:bg-primary-700 disabled:opacity-50 disabled:pointer-events-none
+    }
+
+    .danger-button {
+        @apply py-3 px-4  text-sm font-medium rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:bg-red-600 disabled:opacity-50 disabled:pointer-events-none
+    }
+    .danger-button-outlined {
+        @apply py-2 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-red-500 text-red-500 shadow-sm hover:bg-red-50 disabled:opacity-50 disabled:pointer-events-none
+        dark:border-red-600 dark:text-red-400 dark:hover:bg-red-600/10;
+    }
+
+    .ghost-button {
+        @apply py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent
+        text-primary-600 hover:bg-primary-500/10 hover:text-primary-600 focus:outline-none focus:bg-primary-500/10 focus:text-primary-600
+        disabled:opacity-50 disabled:pointer-events-none
+        dark:text-primary-500 dark:hover:bg-primary-600/30 dark:hover:text-primary-400 dark:focus:bg-primary-600/30 dark:focus:text-primary-400
+
+    }
+
+    .modal-container{
+        @apply rounded-xl drop-shadow-2xl overflow-hidden bg-white dark:bg-neutral-800
+    }
+
+    .invisible-button {
+        @apply py-2 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-full  text-gray-800  hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none  dark:text-neutral-50 dark:hover:bg-neutral-800
+    }
+    .default-input {
+        @apply  px-4 text-gray-900 dark:text-neutral-100 shadow-sm  ring-transparent ring-2 2xl:ring-4 dark:bg-neutral-800
+        focus:outline-none font-normal tracking-wider py-2 border xl:text-base md:text-sm  md:py-2.5 lg:py-2 sm:text-sm sm:leading-6
+        rounded-lg overflow-hidden
+    }
+    .table-row-container {
+        display: grid;
+        grid-template-columns: repeat(7,1fr);
+    }
+    .small-input {
+        @apply py-2 px-3 block w-full border-gray-200 rounded-lg text-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600
+    }
+    .button-link {
+        @apply py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
+    }
+    .outline-primary {
+       @apply  py-2 px-2 block border-[1px] border-gray-200 rounded-lg text-sm  dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600
+    }
+     .bg-image {
+         background-image: url('https://firebasestorage.googleapis.com/v0/b/micro-credit-ms.appspot.com/o/chuttersnap-d2ayYjxBa4Q-unsplash.jpg?alt=media&token=32b49779-2348-4b58-8454-fca74f966a68');
+         background-size: cover;
+         background-position: center;
+    }
+
+    .bg-wavy {
+        background-image: url('./assets/wavy.svg');
+        background-size: cover;
+        background-position: center;
+    }
+    .spinner {
+        font-size: 16px;
+        position: relative;
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+    }
+
+    .spinner .spinner-blade {
+        position: absolute;
+        left: 0.4629em;
+        bottom: 0;
+        width: 0.074em;
+        height: 0.2777em;
+        border-radius: 0.0555em;
+        background-color: #FFFFFF; /* White color */
+        -webkit-transform-origin: center -0.2222em;
+        -ms-transform-origin: center -0.2222em;
+        transform-origin: center -0.2222em;
+        animation: spinner-fade9234 1s infinite linear;
+    }
+
+    .spinner .spinner-blade:nth-child(1) {
+        -webkit-animation-delay: 0s;
+        animation-delay: 0s;
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    .spinner .spinner-blade:nth-child(2) {
+        -webkit-animation-delay: 0.083s;
+        animation-delay: 0.083s;
+        -webkit-transform: rotate(30deg);
+        -ms-transform: rotate(30deg);
+        transform: rotate(30deg);
+    }
+
+    .spinner .spinner-blade:nth-child(3) {
+        -webkit-animation-delay: 0.166s;
+        animation-delay: 0.166s;
+        -webkit-transform: rotate(60deg);
+        -ms-transform: rotate(60deg);
+        transform: rotate(60deg);
+    }
+
+    .spinner .spinner-blade:nth-child(4) {
+        -webkit-animation-delay: 0.249s;
+        animation-delay: 0.249s;
+        -webkit-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+
+    .spinner .spinner-blade:nth-child(5) {
+        -webkit-animation-delay: 0.332s;
+        animation-delay: 0.332s;
+        -webkit-transform: rotate(120deg);
+        -ms-transform: rotate(120deg);
+        transform: rotate(120deg);
+    }
+
+    .spinner .spinner-blade:nth-child(6) {
+        -webkit-animation-delay: 0.415s;
+        animation-delay: 0.415s;
+        -webkit-transform: rotate(150deg);
+        -ms-transform: rotate(150deg);
+        transform: rotate(150deg);
+    }
+
+    .spinner .spinner-blade:nth-child(7) {
+        -webkit-animation-delay: 0.498s;
+        animation-delay: 0.498s;
+        -webkit-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+
+    .spinner .spinner-blade:nth-child(8) {
+        -webkit-animation-delay: 0.581s;
+        animation-delay: 0.581s;
+        -webkit-transform: rotate(210deg);
+        -ms-transform: rotate(210deg);
+        transform: rotate(210deg);
+    }
+
+    .spinner .spinner-blade:nth-child(9) {
+        -webkit-animation-delay: 0.664s;
+        animation-delay: 0.664s;
+        -webkit-transform: rotate(240deg);
+        -ms-transform: rotate(240deg);
+        transform: rotate(240deg);
+    }
+
+    .spinner .spinner-blade:nth-child(10) {
+        -webkit-animation-delay: 0.747s;
+        animation-delay: 0.747s;
+        -webkit-transform: rotate(270deg);
+        -ms-transform: rotate(270deg);
+        transform: rotate(270deg);
+    }
+
+    .spinner .spinner-blade:nth-child(11) {
+        -webkit-animation-delay: 0.83s;
+        animation-delay: 0.83s;
+        -webkit-transform: rotate(300deg);
+        -ms-transform: rotate(300deg);
+        transform: rotate(300deg);
+    }
+
+    .spinner .spinner-blade:nth-child(12) {
+        -webkit-animation-delay: 0.913s;
+        animation-delay: 0.913s;
+        -webkit-transform: rotate(330deg);
+        -ms-transform: rotate(330deg);
+        transform: rotate(330deg);
+    }
+
+    @keyframes spinner-fade9234 {
+        0% {
+            background-color: #FFFFFF;
+        }
+
+        100% {
+            background-color: transparent;
+        }
+    }
+
+    @keyframes rotate {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .cog-spin {
+        animation: rotate 5s linear infinite;
+    }
+}
+
+* {
+/*    font-family: "Work Sans", serif;*/
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+}
