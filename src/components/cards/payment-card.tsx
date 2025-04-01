@@ -2,6 +2,7 @@ import { FileText } from 'lucide-react';
 import { IPayment } from "@/types/payments";
 import { format } from "date-fns";
 import BadgeStatus from "@/components/badge-status.tsx";
+import {useNavigate} from "react-router-dom";
 
 interface PaymentCardProps {
     payment: IPayment;
@@ -17,8 +18,10 @@ const PaymentCard = ({ payment }: PaymentCardProps) => {
         }
     };
 
+    const navigate = useNavigate();
+
     return (
-        <div className="w-full bg-white rounded-lg border border-gray-200 p-4">
+        <div  onClick={() => navigate(`/payments/details/${payment.id}`) } className="w-full hover:cursor-pointer bg-white rounded-lg border border-gray-200 p-4">
             <div className="flex items-start justify-between">
                 <div className="flex items-start gap-3">
                     <div className="mt-1">

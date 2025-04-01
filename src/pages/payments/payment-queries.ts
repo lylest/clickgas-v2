@@ -3,14 +3,37 @@ import { IApiResponse, QueryOptions } from "@/utils/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { IMetaData } from "@/types/pagination";
 import toast from "react-hot-toast";
-import {addPayment, getOrderPayments, getPaymentDetails,} from "@/api/payments.ts";
+import {addPayment, getOrderPayments, getPaymentDetails, getPayments,} from "@/api/payments.ts";
 import {IPayment} from "@/types/payments";
 
 const paymentQueryKeys = {
     order: (orderId:string, page: number, pageSize: number, keyword: string) =>
-        ["payments", { orderId, page, pageSize, keyword }] as const,
+        ["order-payments", { orderId, page, pageSize, keyword }] as const,
+    list: (
+        page: number,
+        pageSize: number,
+        keyword: string,
+        fromDate:string,
+        toDate:string,
+        ) =>
+        ["payments", {  page, pageSize, keyword,fromDate, toDate }] as const,
     details: (paymentId: string) => ["payments", { paymentId }] as const,
 }
+
+export const useGetPayments = (
+    page: number,
+    pageSize: number,
+    keyword: string,
+    fromDate:string,
+    toDate:string,
+    options?: QueryOptions
+) => {
+    return useQuery<{ data: IPayment[], metadata: IMetaData }>({
+        queryKey: paymentQueryKeys.list(page, pageSize, keyword,fromDate, toDate),
+        queryFn: () => getPayments(page, pageSize, keyword, fromDate, toDate),
+        ...options
+    });
+};
 
 export const useGetOrderPayments = (
     orderId:string,
