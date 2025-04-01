@@ -1,18 +1,18 @@
-import { Outlet, useParams, useNavigate } from "react-router-dom";
-import { Fragment } from "react";
-import { useGetPriceDetails } from "@/pages/prices/price-queries.ts";
+import {Outlet, useNavigate, useParams} from "react-router-dom";
+import {Fragment} from "react";
+import {useGetPriceDetails} from "@/pages/prices/price-queries.ts";
 import useRouteModal from "@/hook/useRouteModal.tsx";
 import SlideOver from "@/components/sideover";
-import { formatDate } from "@/utils";
-import { formatCurrency } from "@/utils/time-utils.ts";
+import {formatDate} from "@/utils";
+import {formatCurrency} from "@/utils/time-utils.ts";
 import {
-    LucideArrowLeft,
-    LucideTag,
-    LucideScale,
-    LucideEdit3,
-    LucideCalendar,
-    LucidePackage,
     LucideAlertCircle,
+    LucideArrowLeft,
+    LucideCalendar,
+    LucideEdit3,
+    LucidePackage,
+    LucideScale,
+    LucideTag,
 } from "lucide-react";
 import BadgeStatus from "@/components/badge-status.tsx";
 import MainLoader from "@/components/loaders/main-loader.tsx";
@@ -60,16 +60,9 @@ const PriceDetails = () => {
     const getBrandIcon = (brand:string) => {
         if (!brand) return null;
 
-        // Different brand icons with different colors
-        const brandColors = {
-            "Oryx": "bg-blue-50 text-blue-600",
-            "Total": "bg-red-50 text-red-600",
-            "Shell": "bg-yellow-50 text-yellow-600",
-            "Oilcom": "bg-green-50 text-green-600"
-        };
 
-        const defaultColor = "bg-gray-50 text-gray-600";
-        const colorClass = brandColors[brand] || defaultColor;
+
+        const colorClass = "bg-gray-50 text-gray-600";
 
         return (
             <div className={`rounded-full p-2 ${colorClass}`}>
