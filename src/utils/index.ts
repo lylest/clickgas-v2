@@ -68,7 +68,7 @@ export function capitalizeFirstLetter(word: string): string {
 }
 
 
-export function formatDate(date: Date): string {
+export function formatDate(date: string): string {
     return format(date, "MMMM dd, yyyy hh:mm aa");
 }
 

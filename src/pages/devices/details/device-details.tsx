@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import {Fragment} from "react";
 import {Outlet, useParams, Link, useNavigate} from "react-router-dom";
 import { format } from "date-fns";
 import {
@@ -21,6 +21,7 @@ const DeviceDetails = () => {
     const { deviceId } = useParams();
     const baseUrl = '/devices';
     const navigate = useNavigate();
+
     const { open, closeModal } = useRouteModal({
         navigateTo: {
             url: baseUrl,
@@ -32,6 +33,7 @@ const DeviceDetails = () => {
     const { data: supplier } = useGetSupplierDeviceDetails(deviceId!, { enabled: !!deviceId });
     const { data: readings } = useGetDeviceReadings(deviceId!, 1, 3);
     const { data: customer } = useGetCustomerDeviceByDeviceId(deviceId!, { enabled: !!deviceId });
+
 
     const device: IDevice | undefined = deviceResponse?.data;
 

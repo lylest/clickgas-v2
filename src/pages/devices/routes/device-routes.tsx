@@ -3,7 +3,7 @@ import Devices from "@/pages/devices/devices.tsx";
 import DeviceForm from "@/pages/devices/forms/device-form.tsx";
 import DeviceDetails from "@/pages/devices/details/device-details.tsx";
 
-const CustomerRoutes =()=> {
+const DeviceRoutes =()=> {
     return (
         <Routes>
             <Route path={"/"} element={<Devices />}>
@@ -13,4 +13,4 @@ const CustomerRoutes =()=> {
         </Routes>
     )
 }
-export  default CustomerRoutes
+export  default DeviceRoutes

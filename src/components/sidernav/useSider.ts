@@ -49,10 +49,10 @@ export const useSider = () => {
             pattern: new RegExp("^/orders/*"),
         },
         {
-            name: 'Sales',
-            path: "/sales",
+            name: 'Payments',
+            path: "/payments",
             icon: LucideCircleDollarSign,
-            pattern: new RegExp("^/sales/*"),
+            pattern: new RegExp("^/payments/*"),
         },
         {
             name: "line",
