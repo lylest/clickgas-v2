@@ -1,191 +1,227 @@
-import {FC} from "react";
-import {motion} from "framer-motion";
+import { FC, useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-interface MainLoaderProps {
+interface ModernLoaderProps {
     message?: string;
     fullScreen?: boolean;
     size?: "small" | "medium" | "large";
-    brandColor?: boolean;
+    accentColor?: string;
+    showProgress?: boolean;
+    progress?: number;
 }
 
-const MainLoader: FC<MainLoaderProps> = (
-    {
-        message = "Loading...",
-        fullScreen = true,
-        size = "medium",
-        brandColor = true,
-    }) => {
+const MainLoader: FC<ModernLoaderProps> = ({
+                                                 message,
+                                                 fullScreen = true,
+                                                 size = "medium",
+                                                 accentColor = "#0066CC", // Apple-inspired blue
+                                                 showProgress = false,
+                                                 progress = 0,
+                                             }) => {
+    const [dots, setDots] = useState("");
+
+    // Animated ellipsis effect for the message
+    useEffect(() => {
+        if (!message) return;
+
+        const interval = setInterval(() => {
+            setDots(prev => prev.length >= 3 ? "" : prev + ".");
+        }, 500);
+
+        return () => clearInterval(interval);
+    }, [message]);
+
     // Size configurations
     const sizeConfig = {
         small: {
-            container: "h-24",
-            circle: {
-                outer: "w-12 h-12",
-                inner: "w-8 h-8",
-                dot: "w-2 h-2",
-            },
-            text: "text-sm",
+            container: "max-w-xs",
+            loaderSize: "w-16 h-16",
+            trackWidth: 2,
+            indicatorWidth: 2,
+            gap: 0.5,
+            fontSize: "text-xs",
+            iconSize: 20,
         },
         medium: {
-            container: "h-36",
-            circle: {
-                outer: "w-20 h-20",
-                inner: "w-16 h-16",
-                dot: "w-3 h-3",
-            },
-            text: "text-base",
+            container: "max-w-sm",
+            loaderSize: "w-24 h-24",
+            trackWidth: 3,
+            indicatorWidth: 3,
+            gap: 1,
+            fontSize: "text-sm",
+            iconSize: 28,
         },
         large: {
-            container: "h-48",
-            circle: {
-                outer: "w-28 h-28",
-                inner: "w-24 h-24",
-                dot: "w-4 h-4",
-            },
-            text: "text-lg",
+            container: "max-w-md",
+            loaderSize: "w-32 h-32",
+            trackWidth: 4,
+            indicatorWidth: 4,
+            gap: 1.5,
+            fontSize: "text-base",
+            iconSize: 36,
         },
     };
 
-    // Animation configurations
-    const pulseAnimation = {
-        scale: [1, 1.05, 1],
-        rotate: [0, 180, 360],
-    };
+    const config = sizeConfig[size];
 
-    const dotAnimation = {
-        scale: [1, 1.5, 1],
-        opacity: [0.5, 1, 0.5],
-    };
-
+    // Calculate the circumference of the circle
+    const radius = size === "small" ? 30 : size === "medium" ? 45 : 60;
+    const circumference = 2 * Math.PI * radius;
+    const progressOffset = showProgress
+        ? circumference - (progress / 100) * circumference
+        : 0;
 
     return (
         <div
             className={`${
-                fullScreen ? "min-h-screen" : "min-h-[200px]"
-            } flex flex-col items-center justify-center p-6 bg-gray-50 dark:bg-gray-900`}
+                fullScreen ? "min-h-screen" : ""
+            } flex items-center justify-center bg-white dark:bg-gray-950 transition-colors duration-300`}
         >
-            <div className="w-full max-w-md flex flex-col items-center">
-                {/* Animated loader elements */}
-                <div className={`relative ${sizeConfig[size].container} mb-6 flex items-center justify-center`}>
+            <div className={`${config.container} p-8 flex flex-col items-center justify-center`}>
+                <div className="relative">
                     <motion.div
-                        className="absolute flex items-center justify-center"
-                        initial={{opacity: 0, y: 20}}
-                        animate={{opacity: 1, y: 0}}
-                        transition={{duration: 0.5}}
+                        className={`${config.loaderSize} relative`}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
                     >
-                        {/* Circular spinner with decorative elements */}
-                        <div className="relative">
-                            <motion.div
-                                className={`${sizeConfig[size].circle.outer} ${
-                                    brandColor ? "bg-primary-100 dark:bg-primary-900/50" : "bg-gray-200 dark:bg-gray-700/50"
-                                } rounded-full flex items-center justify-center`}
-                                animate={pulseAnimation}
-                                transition={{
-                                    repeat: Infinity,
-                                    duration: 3,
-                                    ease: "easeInOut",
-                                }}
-                            >
-                                <div
-                                    className={`${sizeConfig[size].circle.inner} bg-white dark:bg-gray-800 rounded-full flex items-center justify-center`}
-                                >
-                                    <motion.div
-                                        className={`${sizeConfig[size].circle.dot} ${
-                                            brandColor ? "bg-primary-500" : "bg-gray-500"
-                                        } rounded-full`}
-                                        animate={dotAnimation}
-                                        transition={{
-                                            repeat: Infinity,
-                                            duration: 1.5,
-                                            ease: "easeInOut",
-                                        }}
-                                    />
-                                </div>
-                            </motion.div>
-
-                            {/* Decorative lines */}
-                            <motion.div
-                                className={`absolute -top-2 left-1/2 transform -translate-x-1/2 h-0.5 ${
-                                    brandColor
-                                        ? "bg-gradient-to-r from-transparent via-primary-300 to-transparent"
-                                        : "bg-gradient-to-r from-transparent via-gray-400 to-transparent"
-                                }`}
-                                initial={{width: "0%"}}
-                                animate={{width: "130%"}}
-                                transition={{
-                                    repeat: Infinity,
-                                    duration: 2,
-                                    repeatType: "reverse",
-                                }}
-                            />
-                            <motion.div
-                                className={`absolute -bottom-2 left-1/2 transform -translate-x-1/2 h-0.5 ${
-                                    brandColor
-                                        ? "bg-gradient-to-r from-transparent via-primary-200 to-transparent"
-                                        : "bg-gradient-to-r from-transparent via-gray-300 to-transparent"
-                                }`}
-                                initial={{width: "0%"}}
-                                animate={{width: "100%"}}
-                                transition={{
-                                    repeat: Infinity,
-                                    duration: 2.5,
-                                    repeatType: "reverse",
-                                    delay: 0.3,
-                                }}
-                            />
-
-                            {/* Rotating orbit line */}
-                            <motion.div
-                                className="absolute inset-0 rounded-full"
-                                style={{
-                                    border: `1px solid ${brandColor ? 'rgba(59, 130, 246, 0.2)' : 'rgba(156, 163, 175, 0.2)'}`,
-                                }}
-                                animate={{rotate: 360}}
-                                transition={{
-                                    repeat: Infinity,
-                                    duration: 8,
-                                    ease: "linear",
-                                }}
-                            />
-                        </div>
-                    </motion.div>
-                </div>
-
-                {/* Message */}
-                {message && (
-                    <motion.div
-                        className="text-center"
-                        initial={{opacity: 0, y: 10}}
-                        animate={{opacity: 1, y: 0}}
-                        transition={{duration: 0.5, delay: 0.3}}
-                    >
-                        <p className={`${sizeConfig[size].text} ${brandColor ? "text-primary-600" : "text-gray-600"} dark:text-gray-300`}>
-                            {message}
-                        </p>
-
-                        {/* Animated loading dots */}
-                        <motion.div
-                            className="flex space-x-1 justify-center mt-2"
-                            initial="hidden"
-                            animate="visible"
+                        {/* Base track circle */}
+                        <svg
+                            className={`w-full h-full`}
+                            viewBox={`0 0 ${radius * 2 + 10} ${radius * 2 + 10}`}
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
                         >
-                            {[0, 1, 2].map((dot) => (
-                                <motion.div
-                                    key={dot}
-                                    className={`${brandColor ? "bg-primary-400" : "bg-gray-400"} rounded-full h-1.5 w-1.5`}
+                            <circle
+                                cx={radius + 5}
+                                cy={radius + 5}
+                                r={radius}
+                                strokeWidth={config.trackWidth}
+                                stroke="rgba(0, 0, 0, 0.1)"
+                                className="dark:stroke-gray-800"
+                                fill="none"
+                            />
+
+                            {/* Progress circle or animated circle */}
+                            {showProgress ? (
+                                <circle
+                                    cx={radius + 5}
+                                    cy={radius + 5}
+                                    r={radius}
+                                    strokeWidth={config.indicatorWidth}
+                                    stroke={accentColor}
+                                    fill="none"
+                                    strokeLinecap="round"
+                                    strokeDasharray={circumference}
+                                    strokeDashoffset={progressOffset}
+                                    transform={`rotate(-90 ${radius + 5} ${radius + 5})`}
+                                    className="transition-all duration-300 ease-in-out"
+                                />
+                            ) : (
+                                <motion.circle
+                                    cx={radius + 5}
+                                    cy={radius + 5}
+                                    r={radius}
+                                    strokeWidth={config.indicatorWidth}
+                                    stroke={accentColor}
+                                    fill="none"
+                                    strokeLinecap="round"
+                                    strokeDasharray={`${circumference * 0.25} ${circumference * 0.75}`}
                                     animate={{
-                                        y: [0, -3, 0],
-                                        opacity: [0.5, 1, 0.5]
+                                        rotate: [0, 360],
+                                        strokeDasharray: [
+                                            `${circumference * 0.1} ${circumference * 0.9}`,
+                                            `${circumference * 0.25} ${circumference * 0.75}`,
+                                            `${circumference * 0.1} ${circumference * 0.9}`
+                                        ],
+                                        strokeDashoffset: [0, -circumference * 0.5, -circumference]
                                     }}
                                     transition={{
-                                        duration: 1,
+                                        duration: 2,
                                         repeat: Infinity,
-                                        delay: dot * 0.2,
-                                        ease: "easeInOut"
+                                        ease: "easeInOut",
+                                        times: [0, 0.5, 1]
+                                    }}
+                                />
+                            )}
+
+                            {/* Center dot */}
+                            <motion.circle
+                                cx={radius + 5}
+                                cy={radius + 5}
+                                r={radius / 6}
+                                fill={accentColor}
+                                animate={{
+                                    opacity: [0.7, 1, 0.7],
+                                    scale: [0.9, 1, 0.9]
+                                }}
+                                transition={{
+                                    duration: 1.5,
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
+                                }}
+                            />
+                        </svg>
+
+                        {/* Floating particles around the circle */}
+                        <AnimatePresence>
+                            {Array.from({ length: 5 }).map((_, i) => (
+                                <motion.div
+                                    key={i}
+                                    className="absolute rounded-full bg-opacity-70"
+                                    style={{
+                                        backgroundColor: accentColor,
+                                        width: config.gap * 3,
+                                        height: config.gap * 3,
+                                        top: "50%",
+                                        left: "50%",
+                                    }}
+                                    initial={{
+                                        x: 0,
+                                        y: 0,
+                                        opacity: 0,
+                                        scale: 0
+                                    }}
+                                    animate={{
+                                        x: [0, (radius * Math.cos(i * (72 * Math.PI / 180))) * 0.8],
+                                        y: [0, (radius * Math.sin(i * (72 * Math.PI / 180))) * 0.8],
+                                        opacity: [0, 0.7, 0],
+                                        scale: [0, 1, 0]
+                                    }}
+                                    transition={{
+                                        duration: 1.8,
+                                        delay: i * 0.3,
+                                        repeat: Infinity,
+                                        repeatDelay: 0.5
                                     }}
                                 />
                             ))}
-                        </motion.div>
+                        </AnimatePresence>
+                    </motion.div>
+                </div>
+
+                {message && (
+                    <motion.div
+                        className="mt-6 text-center"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                    >
+                        <p
+                            className={`${config.fontSize} font-medium text-gray-800 dark:text-gray-200`}
+                            style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
+                        >
+                            {message}{dots}
+                        </p>
+
+                        {showProgress && (
+                            <p
+                                className={`${config.fontSize} mt-2 font-semibold`}
+                                style={{ color: accentColor }}
+                            >
+                                {Math.round(progress)}%
+                            </p>
+                        )}
                     </motion.div>
                 )}
             </div>

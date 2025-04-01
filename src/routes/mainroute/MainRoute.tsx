@@ -13,6 +13,7 @@ import DashboardRoutes from "@/pages/dashboard/routes/dashboard-routes.tsx";
 import CustomerRoutes from "@/pages/customers/routes/customer-routes.tsx";
 import SupplierRoutes from "@/pages/suppliers/routes/supplier-routes.tsx";
 import DeviceRoutes from "@/pages/devices/routes/device-routes.tsx";
+import OrderRoutes from "@/pages/orders/routes/order-routes.tsx";
 
 
 const router = createBrowserRouter(
@@ -31,6 +32,7 @@ const router = createBrowserRouter(
             <Route path={"customers/*"} element={<CustomerRoutes />} />
             <Route path={"suppliers/*"} element={<SupplierRoutes />} />
             <Route path={"devices/*"} element={<DeviceRoutes />} />
+            <Route path={"orders/*"} element={<OrderRoutes />} />
             <Route path="*" element={<NotFound/>}/>
         </Route>
     )

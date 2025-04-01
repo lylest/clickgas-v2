@@ -22,10 +22,18 @@ const BadgeStatus: FC<IBadgeStatusProps<any>> = ({status}) => {
                 <HiCheckBadge />
             </Badge>
 
+        case "confirmed":
+            return <Badge type={"success"} label={capitalizeFirstLetter(wildStatus)}>
+                <HiCheckBadge />
+            </Badge>
+
         case "successful":
             return <Badge type={"success"} label={capitalizeFirstLetter(wildStatus)}/>;
 
-        case "full_paid":
+        case "success":
+            return <Badge type={"success"} label={capitalizeFirstLetter(wildStatus)}/>;
+
+        case "paid":
             return <Badge type={"success"} label={capitalizeFirstLetter(wildStatus)}/>;
 
         case "not-paid":
@@ -46,8 +54,14 @@ const BadgeStatus: FC<IBadgeStatusProps<any>> = ({status}) => {
         case "failed":
             return <Badge type={"error"} label={capitalizeFirstLetter(wildStatus)}/>;
 
-        case "exceed":
-            return <Badge type={"pink"} label={capitalizeFirstLetter(wildStatus)}/>;
+        case "preparing":
+            return <Badge type={"purple"} label={capitalizeFirstLetter(wildStatus)}/>;
+
+        case "on_route":
+            return <Badge type={"warning"} label={capitalizeFirstLetter(wildStatus)}/>;
+
+        case "delivered":
+            return <Badge type={"success"} label={capitalizeFirstLetter(wildStatus)}/>;
 
         case "error":
             return <Badge type={"error"} label={capitalizeFirstLetter(wildStatus)}/>;
@@ -55,11 +69,15 @@ const BadgeStatus: FC<IBadgeStatusProps<any>> = ({status}) => {
         case "cancelled":
             return <Badge type={"error"} label={capitalizeFirstLetter(wildStatus)}/>;
 
-        case "refunded":
-            return <Badge type={"success"} label={capitalizeFirstLetter(wildStatus)}/>;
+        case "returned":
+            return <Badge type={"info"} label={capitalizeFirstLetter(wildStatus)}/>;
 
         case "inactive":
             return <Badge type={"secondary"} label={capitalizeFirstLetter(wildStatus)}/>;
+
+        case "unpaid":
+            return <Badge type={"purple"} label={capitalizeFirstLetter(wildStatus)}/>;
+
 
         default:
             return <Badge type={"secondary"} label={wildStatus}/>;
