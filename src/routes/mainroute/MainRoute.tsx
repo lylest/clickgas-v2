@@ -15,6 +15,7 @@ import SupplierRoutes from "@/pages/suppliers/routes/supplier-routes.tsx";
 import DeviceRoutes from "@/pages/devices/routes/device-routes.tsx";
 import OrderRoutes from "@/pages/orders/routes/order-routes.tsx";
 import PaymentRoutes from "@/pages/payments/routes/payment-routes.tsx";
+import PriceRoutes from "@/pages/prices/routes/price-routes.tsx";
 
 
 const router = createBrowserRouter(
@@ -30,11 +31,12 @@ const router = createBrowserRouter(
 
             <Route path={"/"} element={<Navigate to={"dashboard"}/>}/>
             <Route path={"dashboard"} element={<DashboardRoutes/>}/>
-            <Route path={"customers/*"} element={<CustomerRoutes />} />
-            <Route path={"suppliers/*"} element={<SupplierRoutes />} />
-            <Route path={"devices/*"} element={<DeviceRoutes />} />
-            <Route path={"orders/*"} element={<OrderRoutes />} />
-            <Route path={"payments/*"} element={<PaymentRoutes />} />
+            <Route path={"customers/*"} element={<CustomerRoutes/>}/>
+            <Route path={"suppliers/*"} element={<SupplierRoutes/>}/>
+            <Route path={"devices/*"} element={<DeviceRoutes/>}/>
+            <Route path={"orders/*"} element={<OrderRoutes/>}/>
+            <Route path={"payments/*"} element={<PaymentRoutes/>}/>
+            <Route path={"prices/*"} element={<PriceRoutes/>}/>
             <Route path="*" element={<NotFound/>}/>
         </Route>
     )
