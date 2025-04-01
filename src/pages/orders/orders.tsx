@@ -49,8 +49,6 @@ const Orders = () => {
         paymentStatus === "all" ? undefined : paymentStatus,
         );
 
-
-
     const headers: IHiHeader<IOrder>[] = [
         {
             key: "trackingNo",
