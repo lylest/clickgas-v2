@@ -22,3 +22,8 @@ export const updateDevice = (payload: { data: IDeviceForm, deviceId: string }) =
 export const removeDevice = (deviceId: string) => {
     return remove(`/device/${deviceId}`);
 }
+
+export const getDeviceReadings = (deviceId:string, page: number, pageSize: number) => {
+    const queryParams = generateQueryParams({ page, pageSize });
+    return get(`/readings/${deviceId}?${queryParams}`);
+}

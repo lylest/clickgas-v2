@@ -7,7 +7,7 @@ import { useState } from "react";
 import TableSkeleton from "@/components/skeletons/table-skeleton.tsx";
 import { IHiHeader } from "@/types/hitable";
 import HiTable from "@/components/hi-table/hi-table.tsx";
-import { LucideEdit, LucideEye, LucideTruck, LucideTrash2, Plus, Search } from "lucide-react";
+import {LucideEdit, LucideEye, LucideTrash2, Plus, Search, LucideCpu} from "lucide-react";
 import BadgeStatus from "@/components/badge-status.tsx";
 import { format } from "date-fns";
 import EmptyState from "@/components/general/empty-state.tsx";
@@ -104,7 +104,7 @@ const Devices = () => {
                             <div className="flex items-center gap-3">
                                 <div
                                     className="size-10 flex items-center justify-center rounded-lg border border-primary-200 bg-primary-50 dark:bg-primary-900/20">
-                                    <LucideTruck className="text-primary-500 dark:text-primary-400" size={20} />
+                                    <LucideCpu className="text-primary-500 dark:text-primary-400" size={20} />
                                 </div>
                                 <div>
                                     <div className="flex items-center gap-2">

@@ -199,7 +199,6 @@ const DeviceForm = () => {
             }
         };
 
-
         if (action === "add") {
             addDeviceMutation(deviceData);
         } else {

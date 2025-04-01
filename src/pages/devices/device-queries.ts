@@ -1,14 +1,16 @@
-import { IApiResponse, QueryOptions } from "@/utils/types";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { IMetaData } from "@/types/pagination";
+import {IApiResponse, QueryOptions} from "@/utils/types";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {IMetaData} from "@/types/pagination";
 import toast from "react-hot-toast";
-import { IDevice } from "@/types/device"; // Adjusted import
-import { addDevice, getDeviceDetails, getDevices, removeDevice, updateDevice } from "@/api/devices.ts"; // Adjusted import
+import {IDevice, IDeviceReading} from "@/types/device"; // Adjusted import
+import {addDevice, getDeviceDetails, getDeviceReadings, getDevices, removeDevice, updateDevice} from "@/api/devices.ts"; // Adjusted import
 
 const deviceQueryKeys = {
     list: (page: number, pageSize: number, keyword: string) =>
-        ["devices", { page, pageSize, keyword }] as const,
-    details: (deviceId: string) => ["devices", { deviceId }] as const,
+        ["devices", {page, pageSize, keyword}] as const,
+    readings: (deviceId: string, page: number, pageSize: number) =>
+        ["devices", {deviceId, page, pageSize}] as const,
+    details: (deviceId: string) => ["devices", {deviceId}] as const,
 }
 
 export const useGetDevices = (
@@ -20,6 +22,19 @@ export const useGetDevices = (
     return useQuery<{ data: IDevice[], metadata: IMetaData }>({
         queryKey: deviceQueryKeys.list(page, pageSize, keyword),
         queryFn: () => getDevices(page, pageSize, keyword),
+        ...options
+    });
+};
+
+export const useGetDeviceReadings = (
+   deviceId:string,
+    page: number,
+    pageSize: number,
+    options?: QueryOptions
+) => {
+    return useQuery<{ data: IDeviceReading[], metadata: IMetaData }>({
+        queryKey: deviceQueryKeys.readings(deviceId,page, pageSize),
+        queryFn: () => getDeviceReadings(deviceId, page, pageSize),
         ...options
     });
 };

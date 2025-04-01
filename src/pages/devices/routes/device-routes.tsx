@@ -8,7 +8,7 @@ const CustomerRoutes =()=> {
         <Routes>
             <Route path={"/"} element={<Devices />}>
                 <Route path={"form/:action"} element={<DeviceForm />} />
-                <Route path={"details/:customerId"} element={<DeviceDetails />} />
+                <Route path={"details/:deviceId"} element={<DeviceDetails />} />
             </Route>
         </Routes>
     )

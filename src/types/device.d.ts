@@ -17,3 +17,11 @@ export interface IDevice {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface IDeviceReading {
+        id: string;
+        deviceId: string;
+        amount: number;
+        battery: number;
+        createdAt: string;
+}
