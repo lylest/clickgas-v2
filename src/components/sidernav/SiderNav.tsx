@@ -8,11 +8,12 @@ import logo from "../../assets/logo.svg";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import {useSider} from "@/components/sidernav/useSider.ts";
+import AccountControl from "@/components/account-control/account-control.tsx";
 
 
 const SiderNav = () => {
     const navigate = useNavigate();
-    const { menuList } = useSider();
+    const { filteredMenuList:menuList } = useSider();
     const { dispatch, state } = useGlobalContextHook();
     const { isSideNavClosed } = state;
     return (
@@ -78,6 +79,7 @@ const SiderNav = () => {
                         );
                     })}
                 </nav>
+                <AccountControl />
             </ScrollArea>
 
         </aside>

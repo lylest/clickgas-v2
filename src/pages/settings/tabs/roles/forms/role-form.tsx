@@ -1,21 +1,23 @@
-import { useLocation, useParams } from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import useRouteModal from "@/hook/useRouteModal.tsx";
 import * as Yup from "yup";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import generateFormField, { IFormField } from "@/utils/generate-form-field.tsx";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import generateFormField, {IFormField} from "@/utils/generate-form-field.tsx";
 import Modal from "@/components/modal";
 import SlideOverHeader from "@/components/sideover/sidebar-header.tsx";
-import { capitalizeFirstLetter } from "@/utils";
+import {capitalizeFirstLetter} from "@/utils";
 import FullDivider from "@/components/divider/FullDivider.tsx";
 import Pending from "@/components/loaders/pending/pending.tsx";
 import {useAddRole, useUpdateRole} from "@/pages/settings/tabs/roles/role-queries.ts";
+import {permissions} from "@/pages/permissions-manager/check-permission.ts";
+import Can from "@/pages/permissions-manager/can.tsx";
 
 const RoleForm = () => {
-    const { action } = useParams();
-    const { state: routeState } = useLocation();
+    const {action} = useParams();
+    const {state: routeState} = useLocation();
     const baseUrl = routeState?.goBackTo ? routeState?.goBackTo : `/settings/roles`;
-    const { open, closeModal } = useRouteModal({
+    const {open, closeModal} = useRouteModal({
         navigateTo: {
             url: baseUrl,
             replace: true,
@@ -38,7 +40,7 @@ const RoleForm = () => {
     type RoleFormFieldsValues = Yup.InferType<typeof roleSchema>;
 
     const {
-        formState: { errors },
+        formState: {errors},
         register,
         control,
         handleSubmit,
@@ -91,31 +93,33 @@ const RoleForm = () => {
         }
     };
 
-    const { mutate: addRoleMutation, isPending } = useAddRole({ onSuccess: closeModal });
-    const { mutate: updateRoleMutation, isPending: isUpdating } = useUpdateRole({
+    const {mutate: addRoleMutation, isPending} = useAddRole({onSuccess: closeModal});
+    const {mutate: updateRoleMutation, isPending: isUpdating} = useUpdateRole({
         onSuccess: closeModal,
     });
 
     return (
         <Modal open={open} onClose={closeModal} dialogClass={"pt-4"}>
-            <form onSubmit={handleSubmit(onSubmit)} className={"w-full lg:w-[30rem] modal-container"}>
-                <SlideOverHeader
-                    title={`${capitalizeFirstLetter(action ?? "")} Role`}
-                    onClose={closeModal}
-                />
-                <div className={"full px-5 grid grid-cols-2 gap-4 py-4"}>
-                    {roleFormFields.map((field) => generateFormField(field))}
-                </div>
-                <FullDivider />
-                <div className={"flex justify-end px-5 gap-4 py-4 bg-gray-50 dark:bg-neutral-700/40"}>
-                    <button type="button" onClick={() => closeModal()} className="py-2 px-3 outlined-button">
-                        Cancel
-                    </button>
-                    <button type="submit" className="py-2 px-3 small-button">
-                        <Pending isLoading={isPending || isUpdating} />
-                    </button>
-                </div>
-            </form>
+            <Can permission={permissions.ADD_ROLE}>
+                <form onSubmit={handleSubmit(onSubmit)} className={"w-full lg:w-[30rem] modal-container"}>
+                    <SlideOverHeader
+                        title={`${capitalizeFirstLetter(action ?? "")} Role`}
+                        onClose={closeModal}
+                    />
+                    <div className={"full px-5 grid grid-cols-2 gap-4 py-4"}>
+                        {roleFormFields.map((field) => generateFormField(field))}
+                    </div>
+                    <FullDivider/>
+                    <div className={"flex justify-end px-5 gap-4 py-4 bg-gray-50 dark:bg-neutral-700/40"}>
+                        <button type="button" onClick={() => closeModal()} className="py-2 px-3 outlined-button">
+                            Cancel
+                        </button>
+                        <button type="submit" className="py-2 px-3 small-button">
+                            <Pending isLoading={isPending || isUpdating}/>
+                        </button>
+                    </div>
+                </form>
+            </Can>
         </Modal>
     );
 };

@@ -18,7 +18,9 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {cn} from "@/lib/utils.ts";
-import {Calendar} from "@/components/ui/calendar.tsx"; // Adjusted import
+import {Calendar} from "@/components/ui/calendar.tsx";
+import {permissions} from "@/pages/permissions-manager/check-permission.ts";
+import Can from "@/pages/permissions-manager/can.tsx"; // Adjusted import
 
 const Orders = () => {
 
@@ -243,6 +245,7 @@ const Orders = () => {
                     {isLoading ? (
                         <TableSkeleton />
                     ) : orders?.data?.length ?? 0 > 0 ? (
+                        <Can permission={permissions.GET_ORDERS} messageScreen={true}>
                         <HiTable
                             selectable={false}
                             headers={headers}
@@ -257,6 +260,7 @@ const Orders = () => {
                                 showPagesList: true
                             }}
                         />
+                        </Can>
                     ) : (
                         <EmptyState
                             title={"No orders found."}

@@ -16,7 +16,9 @@ import {DateRange} from "react-day-picker";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {cn} from "@/lib/utils.ts";
-import {Calendar} from "@/components/ui/calendar.tsx"; // Adjusted import
+import {Calendar} from "@/components/ui/calendar.tsx";
+import {permissions} from "@/pages/permissions-manager/check-permission.ts";
+import Can from "@/pages/permissions-manager/can.tsx"; // Adjusted import
 
 
 const Payments = () => {
@@ -164,6 +166,7 @@ const Payments = () => {
                     {isLoading ? (
                         <TableSkeleton />
                     ) : payments?.data?.length ?? 0 > 0 ? (
+                        <Can permission={permissions.GET_PAYMENTS}>
                         <HiTable
                             selectable={false}
                             headers={headers}
@@ -178,6 +181,7 @@ const Payments = () => {
                                 showPagesList: true
                             }}
                         />
+                        </Can>
                     ) : (
                         <EmptyState
                             title={"No payments found."}

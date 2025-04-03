@@ -12,7 +12,12 @@ import BadgeStatus from "@/components/badge-status.tsx";
 import { format } from "date-fns";
 import EmptyState from "@/components/general/empty-state.tsx";
 import { useGetCustomers, useRemoveCustomer } from "@/pages/customers/customer-queries.ts"; // Adjusted import
-import { ICustomer } from "@/types/customer"; // Adjusted import
+import { ICustomer } from "@/types/customer";
+import CustomerAvatar from "@/components/cards/customer-avatar.tsx";
+import {permissions} from "@/pages/permissions-manager/check-permission.ts";
+import {IAction} from "@/types/permission";
+import {useFilterActionsByPermission} from "@/pages/permissions-manager/filter-action-permissions.tsx";
+import Can from "@/pages/permissions-manager/can.tsx"; // Adjusted import
 
 const Customers = () => {
     const { confirm } = useAlerts();
@@ -27,18 +32,20 @@ const Customers = () => {
     } = useGetCustomers( pageNumber, pageSize, keyword); // Removed activeShop logic
     const { mutate: removeCustomerMutation } = useRemoveCustomer();
 
-    const actions = [
+    const actions:IAction<ICustomer>[] = [
         {
             icon: <LucideEdit className={"text-gray-500 size-4"} />,
             onClick: (row: ICustomer) => {
                 navigate(`form/edit`, { state: row });
             },
+            permission:permissions.UPDATE_CUSTOMER
         },
         {
             icon: <LucideTrash2 className={"text-red-500 size-4"} />,
             onClick: (row: ICustomer) => {
                 handleDeleteCustomer(row);
             },
+            permission:permissions.DELETE_CUSTOMER
         },
     ];
 
@@ -49,7 +56,7 @@ const Customers = () => {
             template: (row) => (
                 <Link to={`details/${row.id}`}>
                     <div className={"block"}>
-                        {row.firstName} {row.middleName ? `${row.middleName} ` : ""}{row.lastName}
+                     <CustomerAvatar customer={row} />
                     </div>
                 </Link>
             )
@@ -97,6 +104,8 @@ const Customers = () => {
         }
     };
 
+    const filteredActions = useFilterActionsByPermission(actions)
+
     return (
         <>
             <Outlet />
@@ -138,6 +147,7 @@ const Customers = () => {
                                 />
                             </div>
 
+                            <Can permission={permissions.SIGN_UP_CUSTOMER} messageScreen={false}>
                             <Link to="form/add">
                                 <button
                                     type="button"
@@ -147,6 +157,7 @@ const Customers = () => {
                                     <span>Add customer</span>
                                 </button>
                             </Link>
+                            </Can>
                         </div>
                     </div>
                 </header>
@@ -154,11 +165,12 @@ const Customers = () => {
                     {isLoading ? (
                         <TableSkeleton />
                     ) : customers?.data?.length ?? 0 > 0 ? (
+                        <Can permission={permissions.GET_CUSTOMERS} messageScreen={true}>
                         <HiTable
                             selectable={false}
                             headers={headers}
                             rows={customers?.data ?? []}
-                            actions={actions}
+                            actions={filteredActions}
                             onRowClick={(row) =>  navigate(`details/${row.id}`)}
                             pagination={{
                                 setPage: setPageNumber,
@@ -169,6 +181,7 @@ const Customers = () => {
                                 showPagesList: true
                             }}
                         />
+                        </Can>
                     ) : (
                         <EmptyState
                             title={"No customers found."}

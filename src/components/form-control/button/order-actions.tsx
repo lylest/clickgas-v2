@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import {IOrder} from "@/types/order";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
+import {permissions} from "@/pages/permissions-manager/check-permission.ts";
+import Can from "@/pages/permissions-manager/can.tsx";
 
 interface OrderActionsProps {
     onCancel: () => void;
-    onChangeStatus: (newStatus:string) => void;
+    onChangeStatus: (newStatus: string) => void;
     onConfirm: () => void;
     order: IOrder;
 }
@@ -62,40 +64,46 @@ const OrderActions: React.FC<OrderActionsProps> = (
     return (
         <div className="flex flex-wrap gap-4 items-center justify-between">
             {canCancel && (
-                <button
-                    onClick={onCancel}
-                    className="px-3 py-2 underline rounded text-gray-700 font-medium bg-white hover:bg-gray-100 transition-colors text-sm"
-                >
-                    Cancel Order
-                </button>
+                <Can permission={permissions.CANCEL_ORDER} messageScreen={false}>
+                    <button
+                        onClick={onCancel}
+                        className="px-3 py-2 underline rounded text-gray-700 font-medium bg-white hover:bg-gray-100 transition-colors text-sm"
+                    >
+                        Cancel Order
+                    </button>
+                </Can>
             )}
 
             <div className="flex flex-wrap gap-2 items-center">
+                <Can permission={permissions.UPDATE_ORDER_STATUS} messageScreen={false}>
 
-                <Select value={orderStatus} onValueChange={(value) => {
-                    setOrderStatus(value);
-                    onChangeStatus(value);
-                }}>
-                    <SelectTrigger className="w-full sm:w-40">
-                        <SelectValue placeholder="Order Status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {orderStatuses.map(status => (
-                            <SelectItem key={status} value={status}>
-                                {status.charAt(0).toUpperCase() + status.slice(1).replace("_", " ")}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
+                    <Select value={orderStatus} onValueChange={(value) => {
+                        setOrderStatus(value);
+                        onChangeStatus(value);
+                    }}>
+                        <SelectTrigger className="w-full sm:w-40">
+                            <SelectValue placeholder="Order Status"/>
+                        </SelectTrigger>
+                        <SelectContent>
+                            {orderStatuses.map(status => (
+                                <SelectItem key={status} value={status}>
+                                    {status.charAt(0).toUpperCase() + status.slice(1).replace("_", " ")}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </Can>
 
 
                 {canConfirm && (
-                    <button
-                        onClick={onConfirm}
-                        className="px-3 py-2 flex items-center gap-2 bg-green-600 rounded-lg text-white text-sm hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-green-400"
-                    >
-                        Confirm Order
-                    </button>
+                    <Can permission={permissions.CONFIRM_ORDER} messageScreen={false}>
+                        <button
+                            onClick={onConfirm}
+                            className="px-3 py-2 flex items-center gap-2 bg-green-600 rounded-lg text-white text-sm hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-green-400"
+                        >
+                            Confirm Order
+                        </button>
+                    </Can>
                 )}
             </div>
         </div>

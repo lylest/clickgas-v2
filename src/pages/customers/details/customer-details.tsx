@@ -11,6 +11,8 @@ import { useGetCustomerDetails } from "@/pages/customers/customer-queries.ts";
 import BadgeStatus from "@/components/badge-status.tsx";
 import SlideOverSkeleton from "@/components/skeletons/slide-over-skeleton.tsx";
 import {ICustomer} from "@/types/customer";
+import {permissions} from "@/pages/permissions-manager/check-permission.ts";
+import Can from "@/pages/permissions-manager/can.tsx";
 
 
 
@@ -120,10 +122,12 @@ const CustomerDetails = () => {
                                                 <span>{customer?.phone || "No phone"}</span>
                                             </div>
                                             <div className="mt-3 flex space-x-2">
+                                                <Can permission={permissions.UPDATE_CUSTOMER} messageScreen={false}>
                                                 <button onClick={()=> navigate(`/customers/form/edit`,{ state: customer})} className="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded-full hover:bg-blue-100 transition-colors dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50">
                                                     <Edit className="h-3 w-3 inline mr-1" />
                                                     Edit
                                                 </button>
+                                                </Can>
                                             </div>
                                         </div>
                                     </div>

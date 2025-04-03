@@ -1,5 +1,5 @@
 import { post} from "@/api/requests.ts";
-import {ILoginForm, ISignupForm} from "@/types/auth/auth";
+import {ILoginForm, ISignupForm, ISupplierLoginForm} from "@/types/auth/auth";
 
 
 export const login = (payload: ILoginForm ) => {
@@ -12,4 +12,8 @@ export const signup = (payload: ISignupForm ) => {
 
 export const logout = ( ) => {
     return post("/logout", null);
+}
+
+export const supplierLogin = (payload: ISupplierLoginForm ) => {
+    return post("/supplier/login", payload);
 }

@@ -10,7 +10,7 @@ import FullDivider from "@/components/divider/FullDivider.tsx";
 
 const MinSideNav = () => {
     const navigate = useNavigate();
-    const { menuList } = useSider();
+    const { filteredMenuList:menuList } = useSider();
     const { dispatch } = useGlobalContextHook();
 
 

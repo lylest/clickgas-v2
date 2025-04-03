@@ -68,6 +68,12 @@ export interface ILoginForm {
     password: string
 }
 
+export interface ISupplierLoginForm {
+    authId: string,
+    password: string
+}
+
+
 export interface ILoginResponse  extends  ISignupResponse {
 
 }

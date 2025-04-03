@@ -11,6 +11,8 @@ import FullDivider from "@/components/divider/FullDivider.tsx";
 import Pending from "@/components/loaders/pending/pending.tsx";
 import { useGetPermissions } from "@/pages/settings/tabs/permissions/permission-queries.ts";
 import {useAddRolePermissions} from "@/pages/settings/tabs/roles/role-queries.ts";
+import {permissions} from "@/pages/permissions-manager/check-permission.ts";
+import Can from "@/pages/permissions-manager/can.tsx";
 
 const AddPermissionForm = () => {
     const { action, roleId: routeRoleId } = useParams();
@@ -89,6 +91,7 @@ const AddPermissionForm = () => {
 
     return (
         <Modal open={open} onClose={closeModal} dialogClass={"pt-4"}>
+            <Can permission={permissions.ADD_ROLE_PERMISSION}>
             <form onSubmit={handleSubmit(onSubmit)} className={"w-full lg:w-[30rem] modal-container"}>
                 <SlideOverHeader
                     title={`${capitalizeFirstLetter(action ?? "")} Permissions`}
@@ -107,6 +110,7 @@ const AddPermissionForm = () => {
                     </button>
                 </div>
             </form>
+            </Can>
         </Modal>
     );
 };

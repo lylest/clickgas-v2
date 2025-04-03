@@ -1,6 +1,8 @@
 import {Outlet} from "react-router-dom";
 import TabLinks, {ITabLink} from "@/components/general/Tab.tsx";
 import PageFit from "@/components/general/PageFit.tsx";
+import {permissions} from "@/pages/permissions-manager/check-permission.ts";
+import {useFilteredTabs} from "@/pages/permissions-manager/filter-tabs.ts";
 
 
 const Settings = () => {
@@ -10,19 +12,23 @@ const Settings = () => {
             name: "Account",
             url: "/settings/account",
             pattern: new RegExp("^/settings/account*"),
+            permission:permissions.GET_ORDERS,
         },
         {
             name: "Roles",
             url: "/settings/roles",
             pattern: new RegExp("/settings/roles*"),
+            permission:permissions.GET_ROLES,
         },
         {
             name: "Permissions",
             url: "/settings/permissions",
             pattern: new RegExp("/settings/permissions*"),
+            permission:permissions.GET_ROLES,
         },
-
     ]
+
+    const filteredTabs = useFilteredTabs(getTabs())
 
     return (
         <>
@@ -33,7 +39,7 @@ const Settings = () => {
                         <p className={"text-gray-600  dark:text-neutral-300"}>Customize preferences to suit your
                             needs.</p></div>
 
-                    <TabLinks tabs={getTabs()}/>
+                    <TabLinks tabs={filteredTabs} />
                     <div className={"px-5 py-6"}><Outlet/></div>
                 </div>
             </PageFit>
