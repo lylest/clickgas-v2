@@ -18,8 +18,8 @@ import {formatCurrency, formatSecondsToDuration} from "@/utils/time-utils.ts";
 import {formatDate} from "@/utils";
 import OrderActions from "@/components/form-control/button/order-actions.tsx";
 import {AlertContainer, useAlerts} from "@/Providers/Alert";
-
-
+import {permissions} from "@/pages/permissions-manager/check-permission.ts";
+import Can from "@/pages/permissions-manager/can.tsx";
 
 const libraries: ("places")[] = ["places"];
 
@@ -180,6 +180,7 @@ const OrderDetails = () => {
                                     onCancel={handleOrderCancellation}
                                     onConfirm={() => handleOrderConfirmation()}
                                     order={order}/>
+
                                 {/* Route Information */}
                                 <div className="bg-amber-50 rounded-lg p-4 border border-amber-200">
                                     <h2 className="font-semibold text-amber-800 flex items-center">
@@ -382,16 +383,20 @@ const OrderDetails = () => {
                                             Payment History
                                         </h2>
                                         <div className={"flex gap-2 items-center"}>
+                                            <Can permission={permissions.GET_PAYMENTS}>
                                             <button onClick={() => navigate(`payments`)}
                                                     className={"px-3 py-1.5 white-button"}>
                                                 Payment history
                                             </button>
+                                            </Can>
+                                            <Can permission={permissions.ADD_PAYMENT} messageScreen={false}>
                                             <button
                                                 onClick={() => navigate(`payment-form`)}
                                                 className="px-3 py-1.5 text-sm bg-primary-600 text-white rounded hover:bg-primary-700 transition-colors"
                                             >
                                                 Add Payment
                                             </button>
+                                            </Can>
                                         </div>
                                     </div>
 

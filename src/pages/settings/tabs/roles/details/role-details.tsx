@@ -22,6 +22,8 @@ import {
 import Pagination from "@/components/pagination";
 import { IRolePermission} from "@/types/role";
 import{useAlerts} from "@/Providers/Alert";
+import {permissions} from "@/pages/permissions-manager/check-permission.ts";
+import Can from "@/pages/permissions-manager/can.tsx";
 
 
 const RoleDetails = () => {
@@ -114,6 +116,7 @@ const RoleDetails = () => {
                 <div className="flex flex-col w-[32rem] h-full bg-white dark:bg-neutral-800 overflow-hidden">
                     <SlideOverHeader onClose={closeModal} title="Role Details" />
 
+                    <Can permission={permissions.GET_ROLE_DETAILS}>
                     {/* Role Details Card */}
                     {roleLoading ? (
                         <div className="flex items-center justify-center h-40">
@@ -250,6 +253,7 @@ const RoleDetails = () => {
                             />
                         </div>
                     </div>
+                    </Can>
                 </div>
             </SlideOver>
         </Fragment>

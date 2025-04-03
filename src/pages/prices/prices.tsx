@@ -1,22 +1,26 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { AlertContainer, useAlerts } from "@/Providers/Alert";
+import {Link, Outlet, useNavigate} from "react-router-dom";
+import {AlertContainer, useAlerts} from "@/Providers/Alert";
 import Badge from "@/components/general/Badge.tsx";
-import { TextInput } from "@/components/form-control";
+import {TextInput} from "@/components/form-control";
 import PageFit from "@/components/general/PageFit.tsx";
-import { useState } from "react";
+import {useState} from "react";
 import TableSkeleton from "@/components/skeletons/table-skeleton.tsx";
-import { IHiHeader } from "@/types/hitable";
+import {IHiHeader} from "@/types/hitable";
 import HiTable from "@/components/hi-table/hi-table.tsx";
-import { LucideEdit,  LucideTrash2, Plus, Search, LucideDollarSign } from "lucide-react";
+import {LucideEdit, LucideTrash2, Plus, Search, LucideDollarSign} from "lucide-react";
 import BadgeStatus from "@/components/badge-status.tsx";
-import { format } from "date-fns";
+import {format} from "date-fns";
 import EmptyState from "@/components/general/empty-state.tsx";
-import { useGetPrices, useRemovePrice } from "@/pages/prices/price-queries.ts"; // Adjusted import
-import { IPrice } from "@/types/price";
-import SupplierAvatar from "@/components/cards/supplier-avatar.tsx"; // Adjusted import
+import {useGetPrices, useRemovePrice} from "@/pages/prices/price-queries.ts";
+import {IPrice} from "@/types/price";
+import SupplierAvatar from "@/components/cards/supplier-avatar.tsx";
+import {IAction} from "@/types/permission";
+import {permissions} from "@/pages/permissions-manager/check-permission.ts";
+import {useFilterActionsByPermission} from "@/pages/permissions-manager/filter-action-permissions.tsx";
+import Can from "@/pages/permissions-manager/can.tsx";
 
 const Prices = () => {
-    const { confirm } = useAlerts();
+    const {confirm} = useAlerts();
     const [keyword, setKeyword] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(7);
@@ -26,20 +30,22 @@ const Prices = () => {
         data: prices,
         isLoading
     } = useGetPrices(pageNumber, pageSize, keyword);
-    const { mutate: removePriceMutation } = useRemovePrice();
+    const {mutate: removePriceMutation} = useRemovePrice();
 
-    const actions = [
+    const actions: IAction<IPrice>[] = [
         {
-            icon: <LucideEdit className={"text-gray-500 size-4"} />,
+            icon: <LucideEdit className={"text-gray-500 size-4"}/>,
             onClick: (row: IPrice) => {
-                navigate("form/edit", { state: row });
+                navigate("form/edit", {state: row});
             },
+            permission: permissions.UPDATE_PRICE
         },
         {
-            icon: <LucideTrash2 className={"text-red-500 size-4"} />,
+            icon: <LucideTrash2 className={"text-red-500 size-4"}/>,
             onClick: (row: IPrice) => {
                 handleDeletePrice(row)
             },
+            permission: permissions.DELETE_PRICE
         },
     ];
 
@@ -47,7 +53,7 @@ const Prices = () => {
         {
             key: "supplierId",
             label: "Supplier",
-            template: (row) => <SupplierAvatar supplier={row.Supplier} />
+            template: (row) => <SupplierAvatar supplier={row.Supplier}/>
         },
         {
             key: "gasBrand",
@@ -76,7 +82,7 @@ const Prices = () => {
         {
             key: "status",
             label: "Status",
-            template: (row) => <BadgeStatus status={row.status} />
+            template: (row) => <BadgeStatus status={row.status}/>
         },
         {
             key: "createdAt",
@@ -96,11 +102,12 @@ const Prices = () => {
         }
     };
 
+    const filteredActions = useFilterActionsByPermission(actions)
     return (
         <>
             <PageFit>
-                <Outlet />
-                <AlertContainer />
+                <Outlet/>
+                <AlertContainer/>
 
                 <header className="mb-4 pt-6">
                     <div
@@ -109,13 +116,13 @@ const Prices = () => {
                             <div className="flex items-center gap-3">
                                 <div
                                     className="size-10 flex items-center justify-center rounded-lg border border-primary-200 bg-primary-50 dark:bg-primary-900/20">
-                                    <LucideDollarSign className="text-primary-500 dark:text-primary-400" size={20} />
+                                    <LucideDollarSign className="text-primary-500 dark:text-primary-400" size={20}/>
                                 </div>
                                 <div>
                                     <div className="flex items-center gap-2">
                                         <h1 className="text-xl font-semibold text-gray-900 dark:text-white">Prices</h1>
                                         <Badge label={`${prices?.metadata.total?.toLocaleString() ?? "0"} total`}
-                                               type="secondary" />
+                                               type="secondary"/>
                                     </div>
                                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
                                         Manage, create, edit and delete
@@ -127,7 +134,7 @@ const Prices = () => {
                         <div className="flex items-center gap-3">
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                                    <Search size={16} className="text-gray-400" />
+                                    <Search size={16} className="text-gray-400"/>
                                 </div>
                                 <TextInput
                                     placeholder="Search price..."
@@ -137,37 +144,41 @@ const Prices = () => {
                                 />
                             </div>
 
+                            <Can permission={permissions.ADD_PRICE} messageScreen={false}>
                             <Link to="form/add">
                                 <button
                                     type="button"
                                     className="flex items-center gap-2 py-2.5 px-4 rounded-lg bg-primary-500 hover:bg-primary-600 text-white font-medium transition-colors"
                                 >
-                                    <Plus size={16} />
+                                    <Plus size={16}/>
                                     <span>Add price</span>
                                 </button>
                             </Link>
+                            </Can>
                         </div>
                     </div>
                 </header>
                 <div className={"py-4"}>
                     {isLoading ? (
-                        <TableSkeleton />
+                        <TableSkeleton/>
                     ) : prices?.data?.length ?? 0 > 0 ? (
-                        <HiTable
-                            selectable={false}
-                            headers={headers}
-                            rows={prices?.data ?? []}
-                            actions={actions}
-                            onRowClick={(row) => navigate(`details/${row.id}`)}
-                            pagination={{
-                                setPage: setPageNumber,
-                                totalPages: prices?.metadata?.totalPages,
-                                page: pageNumber,
-                                pageSize: pageSize,
-                                setPageSize: setPageSize,
-                                showPagesList: true
-                            }}
-                        />
+                        <Can permission={permissions.GET_ALL_PRICES} messageScreen={true}>
+                            <HiTable
+                                selectable={false}
+                                headers={headers}
+                                rows={prices?.data ?? []}
+                                actions={filteredActions}
+                                onRowClick={(row) => navigate(`details/${row.id}`)}
+                                pagination={{
+                                    setPage: setPageNumber,
+                                    totalPages: prices?.metadata?.totalPages,
+                                    page: pageNumber,
+                                    pageSize: pageSize,
+                                    setPageSize: setPageSize,
+                                    showPagesList: true
+                                }}
+                            />
+                        </Can>
                     ) : (
                         <EmptyState
                             title={"No prices found."}

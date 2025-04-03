@@ -1,7 +1,9 @@
 import { twMerge } from "tailwind-merge";
 import { Link, useLocation } from "react-router-dom";
 import React, {ElementType, FC} from "react";
+import Badge from "@/components/general/Badge.tsx";
 import SkeletonLoader from "@/components/general/SkeletonLoader.tsx";
+
 
 
 export interface ITabLink {
@@ -12,6 +14,7 @@ export interface ITabLink {
     onClick?:() => void;
     pattern: RegExp;
     url: string;
+    permission?:string
 }
 
 const TabLinks: FC<{
@@ -20,12 +23,12 @@ const TabLinks: FC<{
     wrapperClassName?: string;
     loading?: boolean;
 }> = ({
-    tabs,
-    activeClassName,
+          tabs,
+          activeClassName,
 
-    wrapperClassName,
-    loading,
-}) => {
+          wrapperClassName,
+          loading,
+      }) => {
     if (loading) return <TabLoading totalTabs={tabs.length} />;
     return (
         <div
@@ -58,9 +61,9 @@ const TabLink: React.FC<{ tab: ITabLink }> = ({ tab }) => {
             className={`pb-3 pt-2  ml-3 inline-flex text-sm  dark:text-neutral-300 cursor-pointer bg-transparent  space-x-2 relative px-5   ${
                 isActive
                     ? twMerge(
-                          "text-sm text-primary dark:text-primary-500 transition border-b-[2px] border-primary custom-transition",
-                          tab.activeClassName,
-                      )
+                        "text-sm text-primary dark:text-primary-500 transition border-b-[2px] border-primary custom-transition",
+                        tab.activeClassName,
+                    )
                     : "text-gray-700"
             } `}
             onClick={handleClick}
@@ -69,6 +72,7 @@ const TabLink: React.FC<{ tab: ITabLink }> = ({ tab }) => {
         >
             { tab.icon && <tab.icon size={20}/>}
             <p>{tab.name}</p>
+            {tab.count && <Badge className={"rounded-xl secondary bg-white"} label={tab.count} />}
         </Link>
     );
 };

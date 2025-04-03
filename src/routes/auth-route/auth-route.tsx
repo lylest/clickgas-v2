@@ -7,7 +7,7 @@ import {
 import {VscBracketError, VscRefresh} from "react-icons/vsc";
 import Login from "@/pages/login/login.tsx";
 import ErrorPage from "@/components/ui/ErrorPage.tsx";
-
+import SupplierLogin from "@/pages/supplier_login/supplier_login.tsx";
 
 
 const router = createBrowserRouter(
@@ -22,6 +22,7 @@ const router = createBrowserRouter(
         />}>
             <Route path={"/"} element={<Navigate to={"login"} />} />
             <Route path={"login/*"} element={<Login />} />
+            <Route path={"supplier/login"} element={<SupplierLogin />} />
             <Route path="*" element={<Login />} />
         </Route>
     )

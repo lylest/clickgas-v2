@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import BadgeStatus from "@/components/badge-status.tsx";
 import MainLoader from "@/components/loaders/main-loader.tsx";
+import {permissions} from "@/pages/permissions-manager/check-permission.ts";
+import Can from "@/pages/permissions-manager/can.tsx";
 
 const PaymentDetails = () => {
     const { paymentId } = useParams();
@@ -81,6 +83,7 @@ const PaymentDetails = () => {
                     <Outlet />
                     <div className="flex flex-col w-full lg:w-[40rem] h-full bg-gray-50 dark:bg-neutral-800 overflow-hidden">
                         {/* Header */}
+                        <Can permission={permissions.GET_PAYMENT_DETAILS} messageScreen={true}>
                         <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
                             <div className="px-6 py-4 flex justify-between items-center">
                                 <div className="flex items-center space-x-2">
@@ -110,6 +113,7 @@ const PaymentDetails = () => {
                                     <MainLoader size="medium" />
                                 </div>
                             ) : payment ? (
+
                                 <div className="space-y-8">
                                     {/* Payment Amount Card */}
                                     <div className="bg-white border border-gray-200 dark:bg-gray-800 rounded-xl overflow-hidden">
@@ -280,15 +284,18 @@ const PaymentDetails = () => {
                                     >
                                         Close
                                     </button>
+                                    <Can permission={permissions.GET_ORDER_DETAILS} messageScreen={false}>
                                     <button
                                         onClick={navigateToOrder}
                                         className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors"
                                     >
                                         View Order
                                     </button>
+                                    </Can>
                                 </div>
                             </div>
                         )}
+                        </Can>
                     </div>
                 </SlideOver>
             </Fragment>

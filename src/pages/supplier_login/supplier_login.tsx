@@ -4,11 +4,11 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {useForm} from "react-hook-form";
 import generateFormField, {IFormField} from "@/utils/generate-form-field.tsx";
 import IosLoader from "@/components/loaders/ios/IosLoader.tsx";
-import {useLoginQuery} from "@/pages/login/queries.ts";
+import { useSupplierLoginQuery} from "@/pages/login/queries.ts";
 import { useNavigate } from "react-router-dom";
 
 
-const Login = () => {
+const SupplierLogin = () => {
     const navigate = useNavigate()
     const userSchema = Yup.object({
         userId: Yup.string().required().min(4, "Please provide a valid user id"),
@@ -53,7 +53,10 @@ const Login = () => {
     ]
 
     const onSubmit = (formValues: LoginFieldsValues) => {
-        loginMutation(formValues)
+        loginMutation({
+            authId:formValues.userId,
+            password:formValues.password,
+        })
     }
 
     const handleSuccess = () => {
@@ -61,11 +64,12 @@ const Login = () => {
         window.location.reload()
     }
 
-    const {mutate: loginMutation, isPending} = useLoginQuery({onSuccess: handleSuccess})
+    const {mutate: loginMutation, isPending} = useSupplierLoginQuery({onSuccess: handleSuccess})
 
     function handleNavigate() {
         navigate("/supplier/login");
     }
+
     return (
         <div className="flex items-center justify-center h-screen bg-gray-200 dark:bg-neutral-900">
             <div
@@ -80,7 +84,7 @@ const Login = () => {
                 <form onSubmit={handleSubmit(onSubmit)}
                       className={"sm:gap-5 py-6 sm:py-6 px-6 sm:px-12 space-y-4 bg-white"}>
                     <div className={"space-y-1"}>
-                        <h1 className={"text-2xl font-bold text-neutral-900"}>Login</h1>
+                        <h1 className={"text-2xl font-bold text-neutral-900"}>Supplier Login</h1>
                         <p className={"text-gray-600 text-sm"}>Enter your details below and login in your account</p>
                     </div>
 
@@ -93,10 +97,10 @@ const Login = () => {
                     </button>
 
                     <div className={"flex flex-wrap -space-y-3 px-6 py-3"}>
-                        <p className={"text-gray-600 text-sm"}>Login with supplier account?</p>
+                        <p className={"text-gray-600 text-sm"}>Don't have an account?</p>
                         <button type="button" onClick={handleNavigate}
                                 className="button-link text-underline">
-                            Login
+                            Login as supplier
                         </button>
                     </div>
                 </form>
@@ -105,4 +109,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default SupplierLogin;

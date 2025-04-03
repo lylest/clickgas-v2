@@ -14,7 +14,11 @@ import EmptyState from "@/components/general/empty-state.tsx";
 import { useGetSuppliers, useRemoveSupplier } from "@/pages/suppliers/supplier-queries.ts"; // Adjusted import
 import { ISupplierDetails } from "@/types/supplier";
 import {localStorageKeys, saveValueToLocalStorage} from "@/utils/local-storage.ts";
-import SupplierAvatar from "@/components/cards/customer-avatar.tsx"; // Adjusted import
+import SupplierAvatar from "@/components/cards/supplier-avatar.tsx";
+import {IAction} from "@/types/permission";
+import {permissions} from "@/pages/permissions-manager/check-permission.ts";
+import {useFilterActionsByPermission} from "@/pages/permissions-manager/filter-action-permissions.tsx";
+import Can from "@/pages/permissions-manager/can.tsx"; // Adjusted import
 
 const Suppliers = () => {
     const { confirm } = useAlerts();
@@ -64,24 +68,27 @@ const Suppliers = () => {
         navigate("form/edit");
     }
 
-    const actions = [
+    const  actions:IAction<ISupplierDetails>[] = [
         {
             icon: <LucideEye className={"text-gray-500 size-4"} />,
             onClick: (row: ISupplierDetails) => {
                 navigate(`details/${row.id}`, { state: row });
             },
+            permission:permissions.SUPPLIER_DETAILS
         },
         {
             icon: <LucideEdit className={"text-gray-500 size-4"} />,
             onClick: (row: ISupplierDetails) => {
                  handleEditSupplier(row)
             },
+            permission:permissions.UPDATE_SUPPLIER
         },
         {
             icon: <LucideTrash2 className={"text-red-500 size-4"} />,
             onClick: (row: ISupplierDetails) => {
                 handleDeleteSupplier(row);
             },
+            permission:permissions.DELETE_SUPPLIER
         },
     ];
 
@@ -133,6 +140,8 @@ const Suppliers = () => {
         }
     };
 
+    const filteredActions = useFilterActionsByPermission(actions)
+
     return (
         <>
             <Outlet />
@@ -173,7 +182,7 @@ const Suppliers = () => {
                                     className="pl-10 bg-gray-50 dark:bg-neutral-800 rounded-lg border-gray-300 shadow-none dark:border-neutral-700"
                                 />
                             </div>
-
+                            <Can permission={permissions.ADD_SUPPLIER} messageScreen={false}>
                             <Link to="form/add">
                                 <button
                                     type="button"
@@ -183,6 +192,7 @@ const Suppliers = () => {
                                     <span>Add supplier</span>
                                 </button>
                             </Link>
+                            </Can>
                         </div>
                     </div>
                 </header>
@@ -194,7 +204,7 @@ const Suppliers = () => {
                             selectable={false}
                             headers={headers}
                             rows={suppliers?.data ?? []}
-                            actions={actions}
+                            actions={filteredActions}
                             onRowClick={(row) => navigate(`details/${row.id}`)}
                             pagination={{
                                 setPage: setPageNumber,

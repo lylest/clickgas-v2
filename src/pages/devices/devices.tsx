@@ -12,7 +12,11 @@ import BadgeStatus from "@/components/badge-status.tsx";
 import { format } from "date-fns";
 import EmptyState from "@/components/general/empty-state.tsx";
 import { useGetDevices, useRemoveDevice } from "@/pages/devices/device-queries.ts"; // Adjusted import
-import { IDevice } from "@/types/device"; // Adjusted import
+import { IDevice } from "@/types/device";
+import {IAction} from "@/types/permission";
+import {permissions} from "@/pages/permissions-manager/check-permission.ts";
+import {useFilterActionsByPermission} from "@/pages/permissions-manager/filter-action-permissions.tsx";
+import Can from "@/pages/permissions-manager/can.tsx"; // Adjusted import
 
 const Devices = () => {
     const { confirm } = useAlerts();
@@ -27,24 +31,28 @@ const Devices = () => {
     } = useGetDevices(pageNumber, pageSize, keyword);
     const { mutate: removeDeviceMutation } = useRemoveDevice();
 
-    const actions = [
+    const  actions:IAction<IDevice>[] = [
         {
             icon: <LucideEye className={"text-gray-500 size-4"} />,
             onClick: (row: IDevice) => {
                 navigate(`details/${row.id}`, { state: row });
             },
+            permission:permissions.GET_DEVICES
+
         },
         {
             icon: <LucideEdit className={"text-gray-500 size-4"} />,
             onClick: (row: IDevice) => {
                 navigate("form/edit", { state: row });
             },
+            permission:permissions.UPDATE_DEVICE
         },
         {
             icon: <LucideTrash2 className={"text-red-500 size-4"} />,
             onClick: (row: IDevice) => {
                 handleDeleteDevice(row);
             },
+            permission:permissions.DELETE_DEVICE
         },
     ];
 
@@ -91,6 +99,8 @@ const Devices = () => {
         }
     };
 
+    const filteredActions = useFilterActionsByPermission(actions)
+
     return (
         <>
             <PageFit>
@@ -132,6 +142,7 @@ const Devices = () => {
                                 />
                             </div>
 
+                            <Can permission={permissions.CREATE_DEVICE} messageScreen={false}>
                             <Link to="form/add">
                                 <button
                                     type="button"
@@ -141,6 +152,7 @@ const Devices = () => {
                                     <span>Add device</span>
                                 </button>
                             </Link>
+                            </Can>
                         </div>
                     </div>
                 </header>
@@ -148,11 +160,12 @@ const Devices = () => {
                     {isLoading ? (
                         <TableSkeleton />
                     ) : devices?.data?.length ?? 0 > 0 ? (
+                        <Can permission={permissions.GET_DEVICES} messageScreen={true}>
                         <HiTable
                             selectable={false}
                             headers={headers}
                             rows={devices?.data ?? []}
-                            actions={actions}
+                            actions={filteredActions}
                             onRowClick={(row) => navigate(`details/${row.id}`)}
                             pagination={{
                                 setPage: setPageNumber,
@@ -163,6 +176,7 @@ const Devices = () => {
                                 showPagesList: true
                             }}
                         />
+                        </Can>
                     ) : (
                         <EmptyState
                             title={"No devices found."}

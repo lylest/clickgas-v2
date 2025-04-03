@@ -7,6 +7,8 @@ import MainLoader from "@/components/loaders/main-loader.tsx";
 import PaymentCard from "@/components/cards/payment-card.tsx";
 import EmptyState from "@/components/general/empty-state.tsx";
 import Pagination from "@/components/pagination.tsx";
+import {permissions} from "@/pages/permissions-manager/check-permission.ts";
+import Can from "@/pages/permissions-manager/can.tsx";
 
 const OrderPayments = () => {
 
@@ -50,11 +52,13 @@ const OrderPayments = () => {
                             {loadingPayments ? (
                                 <MainLoader size={"medium"}/>
                             ) : payments?.data?.length ?? 0 > 0 ? (
-                                <div className="py-4 space-y-2">
-                                    {payments?.data?.map((payment) => (
-                                        <PaymentCard payment={payment} key={payment.id}/>
-                                    ))}
-                                </div>
+                                <Can permission={permissions.GET_PAYMENTS}>
+                                    <div className="py-4 space-y-2">
+                                        {payments?.data?.map((payment) => (
+                                            <PaymentCard payment={payment} key={payment.id}/>
+                                        ))}
+                                    </div>
+                                </Can>
                             ) : (
                                 <EmptyState
                                     title={"No payments added yet."}
