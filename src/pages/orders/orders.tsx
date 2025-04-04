@@ -51,7 +51,7 @@ const Orders = () => {
         paymentStatus === "all" ? undefined : paymentStatus,
         );
 
-    const headers: IHiHeader<IOrder>[] = [
+    const tableHeaders: IHiHeader<IOrder>[] = [
         {
             key: "trackingNo",
             label: "Tracking No",
@@ -248,7 +248,7 @@ const Orders = () => {
                         <Can permission={permissions.GET_ORDERS} messageScreen={true}>
                         <HiTable
                             selectable={false}
-                            headers={headers}
+                            headers={tableHeaders}
                             rows={orders?.data ?? []}
                             onRowClick={(row) => navigate(`/orders/details/${row.id}`)}
                             pagination={{
