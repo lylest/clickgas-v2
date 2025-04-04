@@ -1,5 +1,5 @@
 import {IPrice} from "@/types/price";
-import {IDevice} from "@/types/device";
+import {GPSCoordinates, IDevice} from "@/types/device";
 import {ISupplierDetails} from "@/types/supplier";
 import {ICustomer} from "@/types/customer";
 
@@ -29,3 +29,4 @@ export interface IOrder {
         createdAt: string;
         updatedAt: string;
 }
+
