@@ -1,3 +1,4 @@
+/*
 import { ICustomer } from "@/types/customer";
 
 const CustomerOptionCard = ({ userName, phone }: ICustomer) => {
@@ -13,7 +14,8 @@ const CustomerOptionCard = ({ userName, phone }: ICustomer) => {
 
     return (
         <div className="flex items-center space-x-3">
-            <div className="h-10 w-10 rounded-full border bg-gray-100 flex items-center justify-center border-gray-200 font-medium">
+            <div
+                className="h-10 w-10 rounded-full border bg-gray-100 flex items-center justify-center border-gray-200 font-medium">
                 {getInitials(userName)}
             </div>
             <div>
@@ -24,4 +26,4 @@ const CustomerOptionCard = ({ userName, phone }: ICustomer) => {
     );
 };
 
-export default CustomerOptionCard;
+export default CustomerOptionCard;*/

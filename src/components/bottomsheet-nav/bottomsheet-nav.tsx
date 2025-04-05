@@ -17,7 +17,7 @@ interface ISheet {
 }
 
 const BottomsheetNav: FC<ISheet> = ({onClick}) => {
-    const {menuList} = useSider()
+    const {  filteredMenuList:menuList} = useSider()
     const navigate = useNavigate()
     const {  isDarkMode, toggleTheme } = useTheme()
 

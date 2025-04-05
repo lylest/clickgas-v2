@@ -1,3 +1,4 @@
+/*
 import { ICustomer } from "@/types/customer";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
@@ -106,4 +107,4 @@ const CustomerCard: FC<Props> = ({ customer, query = "" }) => {
     );
 };
 
-export default CustomerCard;
+export default CustomerCard;/!**!/*/

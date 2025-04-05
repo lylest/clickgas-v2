@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import { IReview } from "@/types/review";
 
@@ -98,7 +99,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReply, onMenuOpen }) 
         <div className="border-b py-6 px-6">
             <div className="flex items-start">
 
-                {/* Product Images */}
+                {/!* Product Images *!/}
                 <div className="mr-6">
                     <div className="h-16 w-16 bg-gray-100 rounded overflow-hidden">
                         <img
@@ -109,14 +110,14 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReply, onMenuOpen }) 
                     </div>
                 </div>
 
-                {/* Product Name with truncation */}
+                {/!* Product Name with truncation *!/}
                 <div className="mr-8 w-32">
                     <p className="font-medium text-gray-800 truncate" title={review.ProductData.name}>
                         {review.ProductData.name}
                     </p>
                 </div>
 
-                {/* Reviewer with text avatar */}
+                {/!* Reviewer with text avatar *!/}
                 <div className="flex items-center mr-8 w-48">
                     <div className="mr-3 flex-shrink-0">
                         {renderAvatar()}
@@ -139,7 +140,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReply, onMenuOpen }) 
                     </div>
                 </div>
 
-                {/* Review Content */}
+                {/!* Review Content *!/}
                 <div className="flex-1 mr-8">
                     <div className="flex mb-1">
                         {renderStars(review.rating)}
@@ -152,12 +153,12 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReply, onMenuOpen }) 
                     {renderReplySection()}
                 </div>
 
-                {/* Date */}
+                {/!* Date *!/}
                 <div className="w-32 text-right mr-4">
                     <p className="text-gray-500">{formatDate(review.createdAt)}</p>
                 </div>
 
-                {/* Status */}
+                {/!* Status *!/}
                 <div className="w-32 mr-4">
                     <span className={`px-3 py-1 rounded-full text-sm font-medium ${
                         review.reviewStatus === "Published"
@@ -168,7 +169,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReply, onMenuOpen }) 
                     </span>
                 </div>
 
-                {/* Actions */}
+                {/!* Actions *!/}
                 <div className="flex items-center">
                     <button
                         onClick={() => onReply(review.id)}
@@ -190,4 +191,4 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReply, onMenuOpen }) 
     );
 };
 
-export default ReviewCard;
+export default ReviewCard;*/

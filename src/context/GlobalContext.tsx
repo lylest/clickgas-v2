@@ -1,9 +1,8 @@
 import { createContext, useReducer, ReactNode } from 'react';
-import { IShop } from "@/types/shop";
+
 
 type State = {
     currentUser: any;
-    activeShop: IShop | null;
     isSideNavClosed: boolean;
 };
 
@@ -16,7 +15,6 @@ type Dispatch = (action: Action) => void;
 
 const initialState: State = {
     currentUser: null,
-    activeShop: null,
     isSideNavClosed: false
 };
 
@@ -31,12 +29,6 @@ export const updateContextReducer = (state: State, action: Action): State => {
             return {
                 ...state,
                 currentUser: action.payload
-            };
-
-        case 'SET_ACTIVE_SHOP': // Fixed typo in action type
-            return {
-                ...state,
-                activeShop: action.payload
             };
 
         case 'TOGGLE_SIDE_NAV':

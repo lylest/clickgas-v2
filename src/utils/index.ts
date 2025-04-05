@@ -1,9 +1,8 @@
 import clsx, { ClassValue } from "clsx";
 import { format } from "date-fns";
 import { twMerge } from "tailwind-merge";
-import { twMerge as originalTWMerge } from "tailwind-merge";
 import { v4 as uuidv4 } from 'uuid';
-import {IFile} from "@/utils/types";
+
 
 /**
  * Adds an object to a collection if a condition is met.
@@ -88,52 +87,7 @@ export const generateUUID = (): string => {
     return uuidv4();
 };
 
-export const extractNumber = (amountString: string): number => {
-    const numericString = amountString?.replace(/[^0-9]/g, '');
-    return parseInt(numericString, 10);
-};
 
-interface FileSizeResult {
-    size: number;
-    unit: "B" | "KB" | "MB" | "GB" | "TB";
-}
-
-export const getFileSize = (file: File | IFile | never | IDocumentForm): FileSizeResult => {
-    const BYTES_PER_KB = 1024;
-    const BYTES_PER_MB = BYTES_PER_KB * 1024;
-    const BYTES_PER_GB = BYTES_PER_MB * 1024;
-    const BYTES_PER_TB = BYTES_PER_GB * 1024;
-
-    const bytes = file.size;
-
-    let size: number;
-    let unit: "B" | "KB" | "MB" | "GB" | "TB";
-
-    switch (true) {
-        case bytes < BYTES_PER_KB:
-            size = bytes;
-            unit = "B";
-            break;
-        case bytes < BYTES_PER_MB:
-            size = bytes / BYTES_PER_KB;
-            unit = "KB";
-            break;
-        case bytes < BYTES_PER_GB:
-            size = bytes / BYTES_PER_MB;
-            unit = "MB";
-            break;
-        case bytes < BYTES_PER_TB:
-            size = bytes / BYTES_PER_GB;
-            unit = "GB";
-            break;
-        default:
-            size = bytes / BYTES_PER_TB;
-            unit = "TB";
-            break;
-    }
-
-    return { size, unit };
-};
 
 export interface IDocumentForm {
     name: string;
@@ -145,9 +99,3 @@ export interface IDocumentForm {
     InsertedID?:string;
 }
 
-export const getFileExtension = (filename: string): string => filename.split('.').pop() || '';
-
-
-export const twMergeFunc = (...input: ClassValue[]) => {
-    return originalTWMerge(clsx(input));
-};

@@ -1,3 +1,4 @@
+/*
 import {IProductOrder} from "@/types/order";
 import {transformProductsIntoInvoiceItems} from "@/helpers/transform-items.ts";
 
@@ -39,4 +40,4 @@ export const calculateInvoiceTotals = (
         remainingAmount,
         totalPurchasePrice
     };
-};
+};*/
