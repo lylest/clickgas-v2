@@ -40,14 +40,14 @@ const PriceDetails = () => {
     const navigateToSupplier = () => {
         if (price?.supplierId) {
             navigate(`/suppliers/${price.supplierId}`);
-            closeModal();
+          //  closeModal();
         }
     };
 
     const navigateToEdit = () => {
         if (priceId) {
-            navigate(`/prices/${priceId}/edit`);
-            closeModal();
+            navigate(`/prices/form/edit`,{ state: price});
+            //closeModal();
         }
     };
 

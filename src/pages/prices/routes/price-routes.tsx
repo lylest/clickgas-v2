@@ -18,7 +18,7 @@ const PriceRoutes = () => {
                         <PriceDetails/>
                     </Can>
                 }/>
-                <Route path={"price-from/:action"} element={
+                <Route path={"form/:action"} element={
                     <Can permission={permissions.ADD_PRICE}>
                         <PriceForm/>
                     </Can>
