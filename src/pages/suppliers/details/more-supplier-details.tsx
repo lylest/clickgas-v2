@@ -44,10 +44,10 @@ const SupplierDetails = () => {
             permission: permissions.GET_CUSTOMER_DETAILS,
         },
         {
-            name: "Transactions",
-            url: `/suppliers/more-details/${supplierId}/transactions`,
-            pattern: new RegExp(`^/suppliers/more-details/${supplierId}/transactions*`),
-            permission: permissions.GET_CUSTOMER_DETAILS,
+            name: "Orders",
+            url: `/suppliers/more-details/${supplierId}/orders`,
+            pattern: new RegExp(`^/suppliers/more-details/${supplierId}/orders*`),
+            permission: permissions.GET_ORDERS,
         },
     ];
 

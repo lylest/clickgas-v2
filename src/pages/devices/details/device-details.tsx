@@ -1,5 +1,5 @@
 import {Fragment} from "react";
-import {Outlet, useParams, Link, useNavigate} from "react-router-dom";
+import {Outlet, useParams, Link, useNavigate, useLocation} from "react-router-dom";
 import { format } from "date-fns";
 import {
     Cpu, Battery, Calendar, MapPin, Hash,
@@ -21,7 +21,8 @@ import Can from "@/pages/permissions-manager/can.tsx";
 
 const DeviceDetails = () => {
     const { deviceId } = useParams();
-    const baseUrl = '/devices';
+    const {state: routeState} = useLocation();
+    const baseUrl = routeState?.goBackTo ? routeState?.goBackTo :'/devices';
     const navigate = useNavigate();
 
     const { open, closeModal } = useRouteModal({

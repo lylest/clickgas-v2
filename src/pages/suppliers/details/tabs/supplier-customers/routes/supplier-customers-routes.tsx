@@ -2,8 +2,7 @@ import {Route, Routes} from "react-router-dom";
 import {permissions} from "@/pages/permissions-manager/check-permission.ts";
 import Can from "@/pages/permissions-manager/can.tsx";
 import SupplierCustomers from "@/pages/suppliers/details/tabs/supplier-customers/supplier-customers.tsx";
-import SupplierCustomerDetails
-    from "@/pages/suppliers/details/tabs/supplier-customers/details/supplier-customer-details.tsx";
+import CustomerDetails from "@/pages/customers/details/customer-details.tsx";
 
 const SupplierCustomersRoutes = () => {
     return (
@@ -15,7 +14,7 @@ const SupplierCustomersRoutes = () => {
             }>
                 <Route path={"/details/:customerId"} element={
                     <Can permission={permissions.GET_CUSTOMER_DETAILS}>
-                        <SupplierCustomerDetails />
+                        <CustomerDetails />
                     </Can>
                 }>
                 </Route>

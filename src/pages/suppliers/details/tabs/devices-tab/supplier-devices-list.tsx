@@ -1,50 +1,54 @@
-import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
+import {Link, Outlet, useNavigate, useParams} from "react-router-dom";
 import {AlertContainer, useAlerts} from "@/Providers/Alert";
 import Badge from "@/components/general/Badge.tsx";
-import { TextInput } from "@/components/form-control";
+import {TextInput} from "@/components/form-control";
 import PageFit from "@/components/general/PageFit.tsx";
-import { useState } from "react";
+import {useState} from "react";
 import TableSkeleton from "@/components/skeletons/table-skeleton.tsx";
-import { IHiHeader } from "@/types/hitable";
+import {IHiHeader} from "@/types/hitable";
 import HiTable from "@/components/hi-table/hi-table.tsx";
 import {LucideEye, LucideCpu, Search, Plus, LucideTrash2} from "lucide-react";
 import BadgeStatus from "@/components/badge-status.tsx";
-import { format } from "date-fns";
+import {format} from "date-fns";
 import EmptyState from "@/components/general/empty-state.tsx";
 import {useGetSupplierDevices, useRemoveSupplierDevice} from "@/pages/devices/device-queries.ts";
-import { ISupplierDevice} from "@/types/device"; // Assuming this is where the interfaces are defined
-import { IAction } from "@/types/permission";
-import { permissions } from "@/pages/permissions-manager/check-permission.ts";
-import { useFilterActionsByPermission } from "@/pages/permissions-manager/filter-action-permissions.tsx";
+import {ISupplierDevice} from "@/types/device"; // Assuming this is where the interfaces are defined
+import {IAction} from "@/types/permission";
+import {permissions} from "@/pages/permissions-manager/check-permission.ts";
+import {useFilterActionsByPermission} from "@/pages/permissions-manager/filter-action-permissions.tsx";
 import Can from "@/pages/permissions-manager/can.tsx";
 
-const SupplierDevicesList = () => {
-    const { confirm } = useAlerts();
+const SupplierDevices = () => {
+    const {confirm} = useAlerts();
     const [keyword, setKeyword] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(7);
-    const { supplierId } = useParams();
+    const {supplierId} = useParams();
     const navigate = useNavigate();
 
     const {
         data: supplierDevices,
         isLoading
-    } = useGetSupplierDevices(supplierId!, pageNumber, pageSize, keyword, { enabled: !!supplierId });
+    } = useGetSupplierDevices(supplierId!, pageNumber, pageSize, keyword, {enabled: !!supplierId});
 
     const actions: IAction<ISupplierDevice>[] = [
         {
-            icon: <LucideEye className={"text-gray-500 size-4"} />,
+            icon: <LucideEye className={"text-gray-500 size-4"}/>,
             onClick: (row: ISupplierDevice) => {
-                navigate(`details/${row.id}`, { state: row });
+                navigate(`details/${row.Device.id}`, {
+                    state: {
+                        goBackTo: `/suppliers/more-details/${supplierId}`
+                    }
+                });
             },
             permission: permissions.GET_SUPPLIER_DEVICE_DETAILS
         },
         {
-            icon: <LucideTrash2 className={"text-red-500 size-4"} />,
+            icon: <LucideTrash2 className={"text-red-500 size-4"}/>,
             onClick: (row: ISupplierDevice) => {
                 handleDeleteDevice(row);
             },
-            permission:permissions.DELETE_SUPPLIER_DEVICE
+            permission: permissions.DELETE_SUPPLIER_DEVICE
         },
     ];
 
@@ -64,7 +68,11 @@ const SupplierDevicesList = () => {
             key: "deviceId",
             label: "Serial Number",
             template: (row) => (
-                <Link to={`details/${row.id}`}>
+                <Link to={`details/${row.deviceId}`} state={
+                    {
+                        goBackTo:`/suppliers/more-details/${supplierId}/devices`
+                    }
+                }>
                     <div className={"block"}>{row.Device.serialNumber}</div>
                 </Link>
             )
@@ -82,7 +90,7 @@ const SupplierDevicesList = () => {
         {
             key: "status",
             label: "Status",
-            template: (row) => <BadgeStatus status={row.Device.deviceStatus} />
+            template: (row) => <BadgeStatus status={row.Device.deviceStatus}/>
         },
         {
             key: "assignedDate",
@@ -97,25 +105,28 @@ const SupplierDevicesList = () => {
     ];
 
     const filteredActions = useFilterActionsByPermission(actions);
-    const { mutate:removeSupplierDeviceMutation } = useRemoveSupplierDevice()
+    const {mutate: removeSupplierDeviceMutation} = useRemoveSupplierDevice()
 
     return (
         <PageFit>
-            <Outlet />
-            <AlertContainer />
+            <Outlet/>
+            <AlertContainer/>
 
             <header className="mb-4 pt-6">
-                <div className="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-neutral-800">
+                <div
+                    className="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-neutral-800">
                     <div className="flex items-center">
                         <div className="flex items-center gap-3">
-                            <div className="size-10 flex items-center justify-center rounded-lg border border-primary-200 bg-primary-50 dark:bg-primary-900/20">
-                                <LucideCpu className="text-primary-500 dark:text-primary-400" size={20} />
+                            <div
+                                className="size-10 flex items-center justify-center rounded-lg border border-primary-200 bg-primary-50 dark:bg-primary-900/20">
+                                <LucideCpu className="text-primary-500 dark:text-primary-400" size={20}/>
                             </div>
                             <div>
                                 <div className="flex items-center gap-2">
-                                    <h1 className="text-xl font-semibold text-gray-900 dark:text-white">Supplier Devices</h1>
+                                    <h1 className="text-xl font-semibold text-gray-900 dark:text-white">Supplier
+                                        Devices</h1>
                                     <Badge label={`${supplierDevices?.metadata.total?.toLocaleString() ?? "0"} total`}
-                                           type="secondary" />
+                                           type="secondary"/>
                                 </div>
                                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
                                     View supplier assigned devices
@@ -127,7 +138,7 @@ const SupplierDevicesList = () => {
                     <div className="flex items-center gap-3">
                         <div className="relative">
                             <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                                <Search size={16} className="text-gray-400" />
+                                <Search size={16} className="text-gray-400"/>
                             </div>
                             <TextInput
                                 placeholder="Search device..."
@@ -142,7 +153,7 @@ const SupplierDevicesList = () => {
                                     type="button"
                                     className="flex items-center gap-2 py-2.5 px-4 rounded-lg bg-primary-500 hover:bg-primary-600 text-white font-medium transition-colors"
                                 >
-                                    <Plus size={16} />
+                                    <Plus size={16}/>
                                     <span>Assign device</span>
                                 </button>
                             </Link>
@@ -153,7 +164,7 @@ const SupplierDevicesList = () => {
 
             <div className={"py-4"}>
                 {isLoading ? (
-                    <TableSkeleton />
+                    <TableSkeleton/>
                 ) : supplierDevices?.data?.length ?? 0 > 0 ? (
                     <Can permission={permissions.GET_DEVICES} messageScreen={true}>
                         <HiTable
@@ -161,7 +172,9 @@ const SupplierDevicesList = () => {
                             headers={headers}
                             rows={supplierDevices?.data ?? []}
                             actions={filteredActions}
-                            onRowClick={(row) => navigate(`details/${row.id}`)}
+                            onRowClick={(row) => navigate(`details/${row.deviceId}`,{ state: {
+                                    goBackTo:`/suppliers/more-details/${supplierId}/devices`
+                                }})}
                             pagination={{
                                 setPage: setPageNumber,
                                 totalPages: supplierDevices?.metadata?.totalPages,
@@ -182,4 +195,5 @@ const SupplierDevicesList = () => {
         </PageFit>
     );
 }
-export default SupplierDevicesList;
+
+export default SupplierDevices;

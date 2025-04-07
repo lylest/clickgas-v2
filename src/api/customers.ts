@@ -23,3 +23,8 @@ export const updateCustomer = (payload:{data: ICustomerUpdateForm, customerId:st
 export const removeCustomer = (customerId:string) => {
     return remove(`/customer/${customerId}`);
 }
+
+export const getSupplierCustomers = (supplierId:string,page:number, pageSize:number,keyword:string) => {
+    const queryParams = generateQueryParams({ page, pageSize, keyword });
+    return get(`/supplier-customers/${supplierId}?${queryParams}`);
+}

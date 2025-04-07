@@ -38,3 +38,17 @@ export const changeOrderStatus = (payload:{ orderId: string, newStatus:string}) 
     const { orderId, newStatus } = payload;
     return patch(`/order/status/${orderId}/${newStatus}`,{})
 }
+
+export const getSupplierOrders = (
+    supplierId: string,
+    page: number,
+    pageSize: number,
+    keyword: string,
+    fromDate: string,
+    toDate: string,
+    orderStatus?: string,
+    paymentStatus?: string
+) => {
+    const queryParams = generateQueryParams({page, pageSize, keyword, fromDate, toDate, orderStatus, paymentStatus});
+    return get(`/supplier-orders/${supplierId}?${queryParams}`);
+}

@@ -7,7 +7,7 @@ import {
     changeOrderStatus,
     confirmOrder,
     getOrderDetails,
-    getOrders,
+    getOrders, getSupplierOrders,
     updateDistanceETA
 } from "@/api/orders.ts";
 import toast from "react-hot-toast";
@@ -23,6 +23,26 @@ const orderQueryKeys = {
         paymentStatus?: string
     ) =>
         ["orders", {
+            page,
+            pageSize,
+            keyword,
+            fromDate,
+            toDate,
+            orderStatus,
+            paymentStatus
+        }] as const,
+    supplierId: (
+        supplierId: string,
+        page: number,
+        pageSize: number,
+        keyword: string,
+        fromDate: string,
+        toDate: string,
+        orderStatus?: string,
+        paymentStatus?: string
+    ) =>
+        ["supplier-orders", {
+            supplierId,
             page,
             pageSize,
             keyword,
@@ -53,7 +73,7 @@ export const useGetOrders = (
             toDate,
             orderStatus,
             paymentStatus
-            ),
+        ),
         queryFn: () => getOrders(
             page,
             pageSize,
@@ -62,7 +82,43 @@ export const useGetOrders = (
             toDate,
             orderStatus,
             paymentStatus
-            ),
+        ),
+        ...options
+    });
+};
+
+export const useGetSupplierOrders = (
+    supplierId: string,
+    page: number,
+    pageSize: number,
+    keyword: string,
+    fromDate: string,
+    toDate: string,
+    orderStatus?: string,
+    paymentStatus?: string,
+    options?: QueryOptions
+) => {
+    return useQuery<{ data: IOrder[], metadata: IMetaData }>({
+        queryKey: orderQueryKeys.supplierId(
+            supplierId,
+            page,
+            pageSize,
+            keyword,
+            fromDate,
+            toDate,
+            orderStatus,
+            paymentStatus
+        ),
+        queryFn: () => getSupplierOrders(
+            supplierId,
+            page,
+            pageSize,
+            keyword,
+            fromDate,
+            toDate,
+            orderStatus,
+            paymentStatus
+        ),
         ...options
     });
 };

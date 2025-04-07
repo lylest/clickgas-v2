@@ -3,6 +3,7 @@ import MoreSupplierDetails from "@/pages/suppliers/details/more-supplier-details
 import DeviceTabRoutes from "@/pages/suppliers/details/tabs/devices-tab/routes/device-tab-routes.tsx";
 import SupplierCustomersRoutes
     from "@/pages/suppliers/details/tabs/supplier-customers/routes/supplier-customers-routes.tsx";
+import SupplierOrders from "@/pages/suppliers/details/tabs/supplier-orders/supplier-orders.tsx";
 
 const SupplierDetailsRoutes = () => {
     return (
@@ -11,6 +12,7 @@ const SupplierDetailsRoutes = () => {
                 <Route index element={<Navigate to={"devices"}/>}/>
                 <Route path={"devices/*"} element={<DeviceTabRoutes />}/>
                 <Route path={"customers/*"} element={<SupplierCustomersRoutes />}/>
+                <Route path={"orders"} element={<SupplierOrders />} />
             </Route>
         </Routes>
     )

@@ -2,13 +2,22 @@ import {IApiResponse, QueryOptions} from "@/utils/types";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {IMetaData} from "@/types/pagination";
 import {ICustomer} from "@/types/customer";
-import {addCustomer, getCustomerDetails, getCustomers, removeCustomer, updateCustomer} from "@/api/customers.ts";
+import {
+    addCustomer,
+    getCustomerDetails,
+    getCustomers,
+    getSupplierCustomers,
+    removeCustomer,
+    updateCustomer
+} from "@/api/customers.ts";
 import toast from "react-hot-toast";
 
 
 const customersQueryKeys = {
     list: (page: number, pageSize: number, keyword: string) =>
         ["customers", { page: page, records: pageSize, keyword}] as const,
+    suppliers:(supplierId:string, page: number, pageSize: number, keyword: string) =>
+        ["supplier-customers", {supplierId, page: page, records: pageSize, keyword}] as const,
     details: (customerId: string) => ["customers", {customerId}] as const,
 }
 
@@ -20,6 +29,19 @@ export const useGetCustomers = (
     return useQuery<{ data: ICustomer[], metadata: IMetaData }>({
         queryKey: customersQueryKeys.list(pageSize, pageSize, keyword),
         queryFn: () => getCustomers(page, pageSize, keyword),
+        ...options
+    });
+};
+
+export const useGetSupplierCustomers = (
+   supplierId: string,
+    page: number,
+    pageSize: number,
+    keyword: string,
+    options?: QueryOptions) => {
+    return useQuery<{ data: ICustomer[], metadata: IMetaData }>({
+        queryKey: customersQueryKeys.suppliers(supplierId,pageSize, pageSize, keyword),
+        queryFn: () => getSupplierCustomers(supplierId, page, pageSize, keyword),
         ...options
     });
 };
