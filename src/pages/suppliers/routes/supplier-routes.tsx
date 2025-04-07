@@ -4,6 +4,7 @@ import SupplierDetails from "@/pages/suppliers/details/supplier-details.tsx";
 import SupplierFormRoutes from "@/pages/suppliers/routes/supplier-form-routes.tsx";
 import {permissions} from "@/pages/permissions-manager/check-permission.ts";
 import Can from "@/pages/permissions-manager/can.tsx";
+import SupplierDetailsRoutes from "@/pages/suppliers/routes/details-routes.tsx";
 
 const SupplierRoutes = () => {
     return (
@@ -24,6 +25,12 @@ const SupplierRoutes = () => {
                     </Can>
                 }>
                 </Route>
+            </Route>
+            <Route path={"/more-details/:supplierId/*"} element={
+                <Can permission={permissions.SUPPLIER_DETAILS}>
+                    <SupplierDetailsRoutes/>
+                </Can>
+            }>
             </Route>
         </Routes>
     )

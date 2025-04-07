@@ -9,18 +9,15 @@ import {
     LucidePhone,
     LucideMapPin,
     LucideCalendar,
-    LucideEdit,
     LucideMail,
     LucideMap,
     LucideIdCard,
-    LucideDownload
+    LucideDownload, LucideLink
 } from "lucide-react";
 import {GoogleMap, useLoadScript, MarkerF} from '@react-google-maps/api';
 import {LongLat} from "@/types/map-typed.ts";
 import {containerStyle} from "@/utils/map-helper.ts";
 import MainLoader from "@/components/loaders/main-loader.tsx";
-import {ISupplierDetails} from "@/types/supplier";
-import {localStorageKeys, saveValueToLocalStorage} from "@/utils/local-storage.ts";
 import {permissions} from "@/pages/permissions-manager/check-permission.ts";
 import Can from "@/pages/permissions-manager/can.tsx";
 
@@ -78,41 +75,6 @@ const SupplierDetails: FC = () => {
         googleMapsApiKey: import.meta.env.VITE_MAP_API_KEY,
         libraries,
     });
-
-    function handleEditSupplier(row: ISupplierDetails) {
-        const basicDetails = {
-            supplierId: row.id,
-            firstName: row.firstName,
-            lastName: row.lastName,
-            middleName: row?.middleName ?? null,
-            phone: row.phone,
-        }
-
-        const locationDetails = {
-            country: row.country,
-            region: row.region,
-            address: row.address,
-            latitude: row.gpsCoordinates.latitude,
-            longitude: row.gpsCoordinates.longitude,
-            coordinates: {
-                lat: row.gpsCoordinates.latitude,
-                lng: row.gpsCoordinates.longitude,
-            },
-
-        }
-
-        const idDetails = {
-            idType: row.idType,
-            idImage: row.idImage,
-            idNumber: row.idNumber,
-            Image: row.Image,
-        }
-        console.log(locationDetails)
-        saveValueToLocalStorage(localStorageKeys.supplier_form?.BASIC_SUPPLIER_DETAILS, basicDetails)
-        saveValueToLocalStorage(localStorageKeys.supplier_form?.SUPPLIER_LOCATION_DETAILS, locationDetails);
-        saveValueToLocalStorage(localStorageKeys.supplier_form?.SUPPLIER_ID_DETAILS, idDetails);
-        navigate("/suppliers/form/edit");
-    }
 
     return (
         <Fragment>
@@ -354,18 +316,16 @@ const SupplierDetails: FC = () => {
                                     <div className="flex gap-4">
                                         <button
                                             onClick={closeModal}
-                                            className="flex-1 px-4 py-3 text-sm font-medium text-gray-700 dark:text-neutral-200 bg-gray-100 dark:bg-neutral-700 rounded-lg hover:bg-gray-200 dark:hover:bg-neutral-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:focus:ring-offset-neutral-800"
-                                        >
+                                            className="flex-1 px-4 py-3 text-sm font-medium text-gray-700 dark:text-neutral-200 bg-gray-100 dark:bg-neutral-700 rounded-lg hover:bg-gray-200 dark:hover:bg-neutral-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:focus:ring-offset-neutral-800">
                                             Close
                                         </button>
 
-                                        <Can permission={permissions.UPDATE_SUPPLIER} messageScreen={false}>
+                                        <Can permission={permissions.SUPPLIER_DETAILS} messageScreen={false}>
                                             <button
-                                                onClick={() => supplier?.data ? handleEditSupplier(supplier.data) : console.log("no supplier details")}
-                                                className="flex-1 px-4 py-3 text-sm font-medium text-white bg-green-600 rounded-lg shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-neutral-800 transition-all duration-200 flex items-center justify-center"
-                                            >
-                                                <LucideEdit className="h-4 w-4 mr-2"/>
-                                                Edit Supplier
+                                                onClick={() => navigate(`/suppliers/more-details/${supplierId}`)}
+                                                className="flex-1 px-4 py-3 text-sm font-medium text-white bg-green-600 rounded-lg shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-neutral-800 transition-all duration-200 flex items-center justify-center">
+                                                <LucideLink className="h-4 w-4 mr-2"/>
+                                                View more
                                             </button>
                                         </Can>
                                     </div>
