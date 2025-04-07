@@ -52,3 +52,17 @@ export const getSupplierOrders = (
     const queryParams = generateQueryParams({page, pageSize, keyword, fromDate, toDate, orderStatus, paymentStatus});
     return get(`/supplier-orders/${supplierId}?${queryParams}`);
 }
+
+export const getCustomerOrders = (
+    customerId: string,
+    page: number,
+    pageSize: number,
+    keyword: string,
+    fromDate: string,
+    toDate: string,
+    orderStatus?: string,
+    paymentStatus?: string
+) => {
+    const queryParams = generateQueryParams({page, pageSize, keyword, fromDate, toDate, orderStatus, paymentStatus});
+    return get(`/customer-orders/${customerId}?${queryParams}`);
+}

@@ -22,3 +22,11 @@ export interface ICustomerDevice  {
     createdAt: string;
     updatedAt: string;
 }
+
+
+export interface ICustomerDeviceForm {
+    customerId: string;
+    supplierId: string;
+    deviceId: string;
+    priceId: string;
+}

@@ -5,7 +5,7 @@ import {IOrder} from "@/types/order"; // Adjusted import
 import {
     cancelOrder,
     changeOrderStatus,
-    confirmOrder,
+    confirmOrder, getCustomerOrders,
     getOrderDetails,
     getOrders, getSupplierOrders,
     updateDistanceETA
@@ -51,6 +51,26 @@ const orderQueryKeys = {
             orderStatus,
             paymentStatus
         }] as const,
+    customerId: (
+        customerId: string,
+        page: number,
+        pageSize: number,
+        keyword: string,
+        fromDate: string,
+        toDate: string,
+        orderStatus?: string,
+        paymentStatus?: string
+    ) =>
+        ["customer-orders", {
+             customerId,
+            page,
+            pageSize,
+            keyword,
+            fromDate,
+            toDate,
+            orderStatus,
+            paymentStatus
+        }] as const,
     details: (orderId: string) => ["orders", {orderId}] as const,
 }
 
@@ -75,6 +95,42 @@ export const useGetOrders = (
             paymentStatus
         ),
         queryFn: () => getOrders(
+            page,
+            pageSize,
+            keyword,
+            fromDate,
+            toDate,
+            orderStatus,
+            paymentStatus
+        ),
+        ...options
+    });
+};
+
+export const useGetCustomerOrders = (
+    customerId: string,
+    page: number,
+    pageSize: number,
+    keyword: string,
+    fromDate: string,
+    toDate: string,
+    orderStatus?: string,
+    paymentStatus?: string,
+    options?: QueryOptions
+) => {
+    return useQuery<{ data: IOrder[], metadata: IMetaData }>({
+        queryKey: orderQueryKeys.customerId(
+            customerId,
+            page,
+            pageSize,
+            keyword,
+            fromDate,
+            toDate,
+            orderStatus,
+            paymentStatus
+        ),
+        queryFn: () => getCustomerOrders(
+            customerId,
             page,
             pageSize,
             keyword,

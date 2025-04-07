@@ -1,5 +1,7 @@
 import {ISupplierDetails} from "@/types/supplier";
 import {IUser} from "@/types/role";
+import {ICustomer} from "@/types/customer";
+import {IPrice} from "@/types/price";
 
 interface GPSCoordinates {
     latitude: number;
@@ -47,4 +49,23 @@ export interface ISupplierDeviceAssignment {
         supplierId: string;
         deviceId: string;
     }[];
+}
+
+// Main interface
+export  interface ICustomerDevice {
+    id: string;
+    customerId: string;
+    customer: ICustomer;
+    supplierId: string;
+    supplier: ISupplierDetails;
+    deviceId: string;
+    Device: IDevice;
+    priceId: string;
+    Price: IPrice;
+    assignedBy: string;
+    User: IUser;
+    status: string;
+    assignedDate: string;
+    createdAt: string;
+    updatedAt: string;
 }

@@ -144,7 +144,7 @@ const ComboboxInput: FC<ComboboxProps> = (
                         <Combobox.Options
                             as="ul"
                             className={
-                                "bg-white dark:bg-neutral-700 max-h-52 overflow-y-auto absolute top-full z-100 w-full shadow-base border-[1.4px]  border-light-gray dark:border-neutral-500 py-2 rounded-[5px] mt-2"
+                                "bg-white dark:bg-neutral-700  overflow-y-auto absolute top-full  w-full shadow-base border-[1.4px]  border-light-gray dark:border-neutral-500 py-2 rounded-[5px] mt-2"
                             }
                         >
                             {loading ? (

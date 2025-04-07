@@ -1,6 +1,7 @@
 import { generateQueryParams } from "@/utils";
 import { get, patch, post, remove } from "@/api/requests.ts";
-import {IDeviceForm, ISupplierDeviceAssignment} from "@/types/device"; // Assuming Device interfaces are defined
+import {IDeviceForm, ISupplierDeviceAssignment} from "@/types/device";
+import {ICustomerDeviceForm} from "@/types/customer-device"; // Assuming Device interfaces are defined
 
 export const getDevices = (page: number, pageSize: number, keyword: string) => {
     const queryParams = generateQueryParams({ page, pageSize, keyword });
@@ -39,4 +40,13 @@ export const assignSupplierDevices = (data: ISupplierDeviceAssignment) => {
 
 export const removeSupplierDevice = (deviceId: string) => {
     return remove(`/supplier-device/${deviceId}`);
+}
+
+export const getCustomerDevices = (customerId: string, page: number, pageSize: number, keyword: string) => {
+    const queryParams = generateQueryParams({ page, pageSize, keyword });
+    return get(`/customer-devices/${customerId}?${queryParams}`);
+}
+
+export const addCustomerDevice = (data: ICustomerDeviceForm) => {
+    return post("/customer-device", data);
 }

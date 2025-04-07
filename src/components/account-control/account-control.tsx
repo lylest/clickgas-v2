@@ -6,7 +6,7 @@ import { GlobalContext } from '@/context/GlobalContext';
 import { TbLogout, TbUser, TbChevronDown } from 'react-icons/tb';
 import {useLogout} from "@/pages/login/queries.ts";
 import {LucideUser} from "lucide-react";
-import {useTheme} from "@/app/useTheme.ts";
+
 
 interface UserAvatarProps {
     className?: string;
@@ -16,7 +16,6 @@ const UserControl: FC<UserAvatarProps> = ({ className = '' }) => {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const { state, } = useContext(GlobalContext);
-    const {  isDarkMode,  toggleTheme } = useTheme()
     const user = state.currentUser;
 
     function handleLogoutSuccess() {
@@ -53,15 +52,6 @@ const UserControl: FC<UserAvatarProps> = ({ className = '' }) => {
                     </div>
 
                     <div className="border-t border-gray-200">
-                        <label className="flex   justify-between px-4 items-center cursor-pointer py-3">
-                            <span className="font-normal text-sm text-slate-600 dark:text-neutral-300">Dark mode</span>
-                            <input onChange={() => toggleTheme()} type="checkbox" checked={isDarkMode} value=""
-                                   className="sr-only peer"/>
-                            <div
-                                className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-
-                        </label>
-
                         <button
                             onClick={() => {
                                 navigate('/profile');

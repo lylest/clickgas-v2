@@ -3,7 +3,7 @@ import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
 import { format } from "date-fns";
 import {
     User, Phone, Mail, MapPin, Calendar,
-     Shield,  Edit,
+    Shield, Edit, LucideLink,
 } from "lucide-react";
 import SlideOver from "@/components/sideover";
 import useRouteModal from "@/hook/useRouteModal.tsx";
@@ -221,13 +221,22 @@ const CustomerDetails = () => {
                                 </div>
 
                                 {/* Footer */}
-                                <div className="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-6 py-3 flex justify-end">
+                                <div className="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-6 py-3 flex justify-end gap-4 items-center">
                                     <button
                                         onClick={closeModal}
-                                        className="px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm font-medium rounded-md border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-650 transition-colors"
+                                        className="px-4 py-3 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm font-medium rounded-md border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-650 transition-colors"
                                     >
                                         Close
                                     </button>
+
+                                    <Can permission={permissions.GET_CUSTOMER_DETAILS} messageScreen={false}>
+                                        <button
+                                            onClick={() => navigate(`/customers/more-details/${customerId}`)}
+                                            className=" px-4 py-3 text-sm font-medium text-white bg-primary-600 rounded-lg shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-neutral-800 transition-all duration-200 flex items-center justify-center">
+                                            <LucideLink className="h-4 w-4 mr-2"/>
+                                            View more
+                                        </button>
+                                    </Can>
                                 </div>
                             </div>
                         )}
